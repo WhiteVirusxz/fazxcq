@@ -28,7 +28,7 @@
 |
 |
 | Current static:
-|  • Version: v1.0.78b [BETA]
+|  • Version: v1.0.79b [BETA]
 |  • Lines: dunno
 |  • Commands: dunno
 |  • Functioncs: dunno
@@ -62,12 +62,8 @@ local lastcommand = ""
 
 local headSit,bang,bangAnim,argstosay;
 
-local disconnected = false
-local flying = false
-local rfling = false
-local antifling = false
-local banging = false
-local following = false
+local disconnected,flying,rfling,antifling,banging,following,alrnotifying =
+	false,false,false,false,false,false,false
 
 local GUI = Instance.new('ScreenGui')
 local cmdsh = Instance.new('Frame',GUI)
@@ -76,7 +72,7 @@ local cmdbox = nil
 if not syn then syn = {} end
 if not is_sirhurt_closure and syn.protect_gui then syn.protect_gui(GUI) end
 
-local funcs,cmds,cmdHandler = {},{},{}
+local funcs,cmds,cmdHandler,notifys = {},{},{},{}
 
 local descendants = function(In)return In:GetDescendants()end
 local firstchild = function(In,In2)return In:FindFirstChild(In2)end
@@ -85,6 +81,7 @@ local con = function(In,func)return In:connect(func)end
 local discon = function(In,In2)return In:Disconnect()end
 local getpropersignal = function(In,In2)return In:GetPropertyChangedSignal(In2)end
 local hwait = function(c)return srv.RunService.Heartbeat:wait(c or 0)end
+local twplay = function(GUI,TIME,TABLE)local t=srv.TW:Create(GUI,TweenInfo.new(TIME,Enum.EasingStyle.Sine),TABLE)t:play()return t;end
 
 function funcs.randomstring(Length)
 	local Text = ""
@@ -143,9 +140,9 @@ end
 
 local pohvalno = {
 	['WhiteFo0x'] = 'Owner',
-	['VannyVenumn'] = 'Friend',
-	["Rainbow_Dose"] = 'Friend',
-	["56789j7"] = 'Friend',
+	['VannyVenumn'] = 'CoolUser',
+	["Rainbow_Dose"] = 'CoolUser',
+	["56789j7"] = 'CoolUser',
 }
 local mt,oldindex,ncallsa
 do
@@ -169,17 +166,132 @@ do
 end
 
 -- Functions
-function funcs.createnotif(t,txt,dur,ifsound)
-	local dur = dur or 5
-	local ifsound = ifsound or false
-	if ifsound then
-		funcs.soundnotify()
+function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
+	repeat wait()until not alrnotifying
+	alrnotifying = true
+	local txt,icon;
+	local function createNotify()
+		local shadow = Instance.new("Frame")
+		local out = Instance.new("Frame")
+		local i_2 = Instance.new("UICorner")
+		local UP_TXT = Instance.new("TextLabel")
+		local DO_TXT = Instance.new("TextLabel")
+		local LINE = Instance.new("Frame")
+		local IMG = Instance.new("ImageLabel")
+		set_properties(shadow,{
+			Parent = GUI,
+			BackgroundColor3 = Color3.fromRGB(33, 33, 33),
+			BorderSizePixel = 0,
+			Position = UDim2.new(.835535705,0,.610632002,0),
+			Size = UDim2.new(0,184,0,100)
+		})
+		set_properties(out,{
+			Parent = shadow,
+			BackgroundColor3 = Color3.fromRGB(34, 34, 34),
+			BorderSizePixel = 0,
+			Position = UDim2.new(.0155362329,0,.0288333334,0),
+			Size = UDim2.new(0,178,0,94)
+		})
+		set_properties(UP_TXT,{
+			Parent = out,
+			BackgroundColor3 = Color3.new(1,1,1),
+			BackgroundTransparency = 1,
+			ClipsDescendants = true,
+			Position = UDim2.new(0.196629226, 0, 0.0106382975, 0),
+			Size = UDim2.new(0,50,0,30),
+			Font = Enum.Font.Cartoon,
+			Text = "SPX",
+			TextColor3 = Color3.fromRGB(255, 255, 255),
+			TextSize = 24,
+			TextStrokeColor3 = Color3.new(1,1,1),
+			TextStrokeTransparency = .830,
+			TextWrapped = true
+		})
+		set_properties(DO_TXT,{
+			Parent = out,
+			BackgroundColor3 = Color3.new(1,1,1),
+			BackgroundTransparency = 1,
+			ClipsDescendants = true,
+			Position = UDim2.new(0,0,.340425521,0),
+			Size = UDim2.new(0,178,0,62),
+			Font = Enum.Font.Cartoon,
+			Text = "...",
+			TextColor3 = Color3.new(1,1,1),
+			TextSize = 18,
+			TextStrokeColor3 = Color3.new(1,1,1),
+			TextStrokeTransparency = .985,
+			TextWrapped = true
+		})
+		set_properties(LINE,{
+			Parent = out,
+			BackgroundColor3 = Color3.new(1,1,1),
+			BorderColor3 = Color3.new(1,1,1),
+			Position = UDim2.new(.0337078646,0,.340425521,0),
+			Size = UDim2.new(0,166,0,1)
+		})
+		set_properties(IMG,{
+			Parent = out,
+			BackgroundColor3 = Color3.new(1,1,1),
+			BackgroundTransparency = 1,
+			Size = UDim2.new(0,29,0,29),
+			Image = "rbxasset://textures/DevConsole/Warning.png",
+			SliceScale = 0
+		})
+
+		set_properties(Instance.new("UICorner"),{
+			Name = "i",
+			Parent = shadow
+		})
+		set_properties(Instance.new("UICorner"),{
+			Name = "i",
+			Parent = out
+		})
+
+		txt,icon = DO_TXT,IMG;
+		return shadow;
 	end
-	srv.StarterGui:SetCore("SendNotification", {
-		Title = t;
-		Text = txt;
-		Duration = dur;
-	})
+
+	local nf;
+	if TEXT and TYPE and DURAT then
+		nf = createNotify()
+		table.insert(notifys,nf)
+		for _,g in next,notifys do twplay(g,.4,{Position = g.Position+UDim2.new(0,0,-1.05,0)})end
+		if TYPE == 'warn'then
+			icon.Image = 'rbxasset://textures/DevConsole/Warning.png'
+			txt.Text = TEXT
+			txt.TextColor3 = Color3.fromRGB(255,255,65)
+		elseif TYPE == 'error'then
+			icon.Image = 'rbxasset://textures/DevConsole/Error.png'
+			txt.Text = TEXT
+			txt.TextColor3 = Color3.fromRGB(255,65,65)
+		elseif TYPE == 'succ'then
+			icon.Image = 'rbxassetid://279548030'
+			txt.Text = TEXT
+			txt.TextColor3 = Color3.new(1,1,1)
+		else return end
+	else return end
+	if IFSOUND then funcs.soundnotify()end
+	task.spawn(function()
+		task.spawn(function()local tww = twplay(nf,.4,{Position = UDim2.new(0,-3611,0,5562)})tww.Completed:wait()alrnotifying = false;end)
+		task.delay(DURAT,function()
+			for _ = 0,1,.05 do wait()
+				nf.Transparency += _
+				for z,c in next, nf:GetDescendants()do
+					if c:IsA('Frame')then
+						c.Transparency += _
+					elseif c:IsA('ImageLabel')then
+						c.ImageTransparency += _
+					elseif c:IsA('TextLabel')then
+						c.TextTransparency += _
+						c.TextStrokeTransparency += _
+					end
+				end
+			end
+			task.wait(.05)
+			nf:Destroy()
+			for _,t in next,notifys do if(t==nf)then t=nil;end;end
+		end)
+	end)
 end
 
 function funcs.soundnotify()
