@@ -270,7 +270,7 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 		if TEXT and TYPE and DURAT then
 			nf = createNotify()
 			table.insert(notifys,nf)
-			for _,g in next,notifys do twplay(g,.4,{Position = g.Position+UDim2.new(0,0,-.09,0)})end
+			for _,g in next,notifys do twplay(g,.4,{Position = g.Position+UDim2.new(0,0,-.13,0)})end
 			if TYPE == 'warn'then
 				icon.Image = 'rbxasset://textures/DevConsole/Warning.png'
 				txt.Text = TEXT
