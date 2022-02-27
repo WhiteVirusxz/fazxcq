@@ -66,7 +66,7 @@ local disconnected,flying,rfling,antifling,banging,following,alrnotifying =
 	false,false,false,false,false,false,false
 
 local GUI = Instance.new('ScreenGui')
-local popup = Instance.new('ViewportFrame',GUI)
+local popup = Instance.new('ViewportFrame')
 local cmdsh = Instance.new('Frame',GUI)
 local cmdbox = nil
 
@@ -160,8 +160,8 @@ do
 	end)
 	setreadonly(mt, true)
 	
-	set_properties(popup,{Size = UDim2.new(0,0,0,0), Position = UDim2.new(0,5000,0,-5000)})
 	set_properties(GUI,{Enabled = true, ResetOnSpawn = false, Parent = srv.CoreGui})
+	set_properties(popup,{Position = UDim2.new(0,5000,0,-5000), Parent = GUI})
 	if writefile and readfile then loadsave()else loaddef()end
 
 	lplr.DevEnableMouseLock = shiftlock
@@ -186,6 +186,7 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 			local LINE = Instance.new("Frame")
 			local IMG = Instance.new("ImageLabel")
 			set_properties(shadow,{
+				Parent = popup,
 				BackgroundColor3 = Color3.fromRGB(33, 33, 33),
 				BorderSizePixel = 0,
 				Position = UDim2.new(0,-3611,0,5562),
@@ -276,7 +277,7 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 				txt.TextColor3 = Color3.new(1,1,1)
 			else return end
 		else return end
-		nf.Parent = popup
+		nf.Parent = popup;
 		warn('created')
 		if IFSOUND then funcs.soundnotify()end
 		task.spawn(function()
@@ -301,7 +302,7 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 				for _,t in next,notifys do if(t==nf)then t=nil;end;end
 			end)
 		end)
-		warn('done')
+		warn('done\n')
 	end)
 end
 
