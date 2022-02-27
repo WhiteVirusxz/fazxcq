@@ -900,7 +900,7 @@ function cmds.follow(args)
 			while following do task.wait()
 				if lplr.Character~=nil then
 					funcs.getRoot(lplr.Character).CFrame=
-						funcs.getRoot(p.Character).CFrame+funcs.getRoot(p.Character).CFrame.lookVector * -5
+						funcs.getRoot(p.Character).CFrame*CFrame.new(0,.8,0)
 				end
 			end
 		end
