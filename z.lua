@@ -205,15 +205,15 @@ end
 
 function funcs.errormsg(a)
 	if a == 1 then
-		return funcs.createnotif('| NH |','Argument 1 missing or nil.')
+		return funcs.createnotif('| NH |','Argument 1 missing or nil.',4,false)
 	elseif a == 2 then
-		return funcs.createnotif('| NH |','Argument 2 missing or nil.')
+		return funcs.createnotif('| NH |','Argument 2 missing or nil.',4,false)
 	elseif a == 'boolean' then
-		return funcs.createnotif('| NH |', 'Argument 1 can be only boolean value.')
+		return funcs.createnotif('| NH |', 'Argument 1 can be only boolean value.',4,false)
 	elseif a == 'key' then
-		return funcs.createnotif('| NH |', 'Argument 1 must be a key.')
+		return funcs.createnotif('| NH |', 'Argument 1 must be a key.',4,false)
 	elseif a == 'uerr' then
-		return funcs.createnotif('| NH |', 'Unknown error.')
+		return funcs.createnotif('| NH |', 'Unknown error.',4,false)
 	end
 	-- funcs.errormsg()
 end
@@ -269,7 +269,7 @@ function funcs.findplayer(target)
 			return p
 		end
 	end
-	funcs.createnotif("| NH |",target..' is not a player.')
+	funcs.createnotif("| NH |",target..' is not a player.',4,false)
 	return nil
 end
 
@@ -311,7 +311,7 @@ function funcs.minmax(num,min,max,mode)
 			return funcs.errormsg('uerr')
 		end
 	end
-	return funcs.createnotif('| NH |',retard)
+	return funcs.createnotif('| NH |',retard,4,false)
 end
 
 function funcs.toboolean(v)
@@ -347,7 +347,7 @@ function funcs.anti(w,oh)
 		antirejoin = oh
 	else return	end
 	setreadonly(mt, true)
-	return funcs.createnotif('| NH |', 'Anti-'..w..' is now '..tostring(oh));
+	return funcs.createnotif('| NH |', 'Anti-'..w..' is now '..tostring(oh),4,false);
 end
 
 -- Commands
@@ -596,7 +596,7 @@ function cmds.rflyspeed(args)
 	local speed = tonumber(args[1])
 	if funcs.minmax(speed,1,800,'def')=='acc'then
 		rflyspeed = speed
-		return funcs.createnotif('| NH |','RFlySpeed setted to '..speed)
+		return funcs.createnotif('| NH |','RFlySpeed setted to '..speed,4,false)
 	end
 end
 
@@ -611,7 +611,7 @@ end
 
 function cmds.rfling(args)
 	rfling = not rfling
-	funcs.createnotif('| NH |','RFling is now '..tostring(rfling))
+	funcs.createnotif('| NH |','RFling is now '..tostring(rfling),4,false)
 end
 
 function cmds.view(args)
@@ -640,7 +640,7 @@ end
 
 function cmds.sync(args)
 	if args[1]==nil then return funcs.errormsg(1) end
-	if gameid ~= 492245779 then return funcs.createnotif('| NH |','Game not in my game list.')end
+	if gameid ~= 492245779 then return funcs.createnotif('| NH |','Game not in my game list.',4,false)end
 	local p = funcs.findplayer(args[1])
 	if p~=nil and p~=lplr then
 		local ocean = "OceanPrimary"
@@ -804,7 +804,7 @@ function cmds.prefix(args)
 	local pref = args[1]
 	if funcs.minmax(#pref,1,3,'len')=='acc' then
 		prefix = pref
-		return funcs.createnotif(" | NH | ",'Prefix setted to '..pref)
+		return funcs.createnotif(" | NH | ",'Prefix setted to '..pref,4,false)
 	end
 end
 
@@ -821,10 +821,10 @@ function cmds.music(args)
 			end
 		end)
 		if not suc then
-			return funcs.createnotif('| NH |','Error: '..err)
+			return funcs.createnotif('| NH |','Error: '..err,4,false)
 		end
 	else
-		return funcs.createnotif('| NH |','Game not in my game list.')
+		return funcs.createnotif('| NH |','Game not in my game list.',4,false)
 	end
 end
 
@@ -886,7 +886,7 @@ function cmds.unbang(args)
 end
 
 function cmds.servercrash(args)
-	return funcs.createnotif('| NH |','This function is not available.')
+	return funcs.createnotif('| NH |','This function is not available.',4,false)
 end
 
 function cmds.antikick(args)
@@ -909,7 +909,7 @@ function cmds.shiftlock(args)
 	else
 		return funcs.errormsg('boolean')
 	end
-	return funcs.createnotif('| NH |', 'ShiftLock is now: '..onof)
+	return funcs.createnotif('| NH |', 'ShiftLock is now: '..onof,4,false)
 end
 
 function cmds.cmdboxkey(args)
@@ -917,7 +917,7 @@ function cmds.cmdboxkey(args)
 	local key = args[1]
 	if funcs.minmax(key,1,1,'len')=='acc'then
 		cmdboxkey = key
-		funcs.createnotif('| NH |', 'Command box key setted to '..key)
+		funcs.createnotif('| NH |', 'Command box key setted to '..key,4,false)
 	end
 end
 
@@ -926,7 +926,7 @@ function cmds.flykey(args)
 	local key = args[1]
 	if funcs.minmax(key,1,1,'len')=='acc'then
 		flykey = key
-		funcs.createnotif('| NH |', 'RFly key setted to '..key)
+		funcs.createnotif('| NH |', 'RFly key setted to '..key,4,false)
 	end
 end
 
@@ -971,7 +971,7 @@ function cmds.antifling(args)
 								--print('Linear '..p.AssemblyLinearVelocity.Magnitude)
 								if p.AssemblyAngularVelocity.Magnitude > 50 or p.AssemblyLinearVelocity.Magnitude > 100 then
 									p.Parent:Destroy()
-									funcs.createnotif(" | NH | ",'Detected part with high velocity: '..p.Parent.Name)
+									funcs.createnotif(" | NH | ",'Detected part with high velocity: '..p.Parent.Name,4,true)
 								end
 							end
 						end))
@@ -1043,7 +1043,7 @@ function cmds.clearnilinstances(args)
 			end)--if not s then warn(e)end
 		end
 	else
-		funcs.createnotif('Incompatible Exploit','Your exploit does not support this command (missing getnilinstances)')
+		funcs.createnotif('Incompatible Exploit','Your exploit does not support this command (missing getnilinstances)',4,false)
 	end
 end
 
