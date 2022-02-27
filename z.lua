@@ -1357,7 +1357,12 @@ do
 				[1] = "unfollow:  UnFollow player",
 				[2] = {},
 				[3] = cmds.unfollow,
-			}
+			},
+			message = {
+				[1] = "message:  Send message to chat",
+				[2] = {'msg'},
+				[3] = cmds.message,
+			},
 		}
 
 		for _,p in next, srv.Players:GetPlayers() do
