@@ -141,16 +141,11 @@ function loadsave()
 	flykey = saves.flykey
 end
 
-local reas = {
-	sc = 'Server Crash',
-	cheat = 'Exploiting',
-}
-local clowns = {
-	["Captain_Exiled"] = reas.sc,
-	["PoweringSystemOff"] = reas.sc,
-	["GalaxianKitten"] = reas.sc,
-	["KoroHub"] = reas.sc,
-	["Sambalamda"] = reas.cheat,
+local pohvalno = {
+	['WhiteFo0x'] = 'Owner',
+	['VannyVenumn'] = 'Friend',
+	["Rainbow_Dose"] = 'Friend',
+	["56789j7"] = 'Friend',
 }
 local mt,oldindex,ncallsa
 do
@@ -1164,10 +1159,10 @@ function keyDown(k)
 	end
 end
 
-function clowndetect(p)
-	for _,__ in next, clowns do
+function loldetect(p)
+	for _,__ in next, pohvalno do
 		if _==p.Name then
-			funcs.createnotif(" | NH: Clown detect | ",_..' | '..__,5,true)
+			funcs.createnotif(" | DETECTING | ",_..' | '..__,5,true)
 		end
 	end
 end
@@ -1364,16 +1359,16 @@ do
 				[3] = cmds.message,
 			},
 		}
-
+		funcs.createnotif('| NH |','Welcome to SPX Admin,  '..lplr.Name..'!');
 		for _,p in next, srv.Players:GetPlayers() do
-			clowndetect(p)
+			loldetect(p)
 		end
 	end))
 end
 
 -- Connects
 _G.spxadmin.ccs.cmdbmdown = con(Mouse.KeyDown,keyDown)
-_G.spxadmin.ccs.clowns = con(srv.Players.PlayerAdded,clowndetect)
+_G.spxadmin.ccs.pohvalno = con(srv.Players.PlayerAdded,loldetect)
 _G.spxadmin.ccs.disc = con(lplr.Chatted,Chatted)
 task.spawn(function()
 	repeat wait() until lplr.Character~=nil and funcs.getHum(lplr.Character)
