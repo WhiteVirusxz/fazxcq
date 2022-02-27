@@ -898,8 +898,10 @@ function cmds.follow(args)
 			end
 			following = true
 			while following do task.wait()
-				funcs.getRoot(lplr.Character).CFrame=
-					funcs.getRoot(p.Character).CFrame + funcs.getRoot(p.Character).CFrame.lookVector * -5
+				if lplr.Character~=nil then
+					funcs.getRoot(lplr.Character).CFrame=
+						funcs.getRoot(p.Character).CFrame+funcs.getRoot(p.Character).CFrame.lookVector * -5
+				end
 			end
 		end
 	end
