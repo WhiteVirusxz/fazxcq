@@ -1471,7 +1471,7 @@ do
 				[3] = cmds.message,
 			},
 		}
-		funcs.createnotif('| NH |','Welcome to SPX Admin,  '..lplr.Name..'!');
+		funcs.createnotif('Welcome to SPX Admin, '..lplr.Name..'!','warn',5,true);
 		for _,p in next, srv.Players:GetPlayers() do
 			loldetect(p)
 		end
