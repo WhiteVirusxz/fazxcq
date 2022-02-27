@@ -1274,7 +1274,7 @@ end
 function loldetect(p)
 	for _,__ in next, pohvalno do
 		if _==p.Name then
-			funcs.createnotif(_..' | '..__,'warn',5,true)
+			funcs.createnotif('Joined:\n'.._..' | '..__,'warn',5,true)
 		end
 	end
 end
