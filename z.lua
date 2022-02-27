@@ -899,7 +899,7 @@ function cmds.follow(args)
 			following = true
 			while following do task.wait()
 				funcs.getRoot(lplr.Character).HumanoidRootPart.CFrame=
-					funcs.getRoot(p.Character).HumanoidRootPart.CFrame + funcs.getRoot(p.Character).Character.HumanoidRootPart.CFrame.lookVector * -5
+					funcs.getRoot(p.Character).HumanoidRootPart.CFrame + funcs.getRoot(p.Character).CFrame.lookVector * -5
 			end
 		end
 	end
