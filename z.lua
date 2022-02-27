@@ -169,7 +169,7 @@ end
 function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 	-- open gui   {1,-250},{1,-220}
 	-- hide gui   {1,-250},{2,-220}
-	task.spawn(function()
+	spawn(function()
 		warn('start')
 		repeat wait()until not alrnotifying
 		alrnotifying = true
