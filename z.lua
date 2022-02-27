@@ -1208,6 +1208,7 @@ function cmds.remove1stperson(args)
 end
 
 function cmds.message(args)
+	argstosay = args
 	local msg = funcs.getstring(1)
 	if msg~=nil then
 		task.spawn(function()
