@@ -170,10 +170,8 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 	-- open gui   {1,-250},{1,-220}
 	-- hide gui   {1,-250},{2,-220}
 	spawn(function()
-		warn('start')
 		repeat wait()until not alrnotifying
 		alrnotifying = true
-		warn('start2')
 		local txt,icon;
 		local function createNotify()
 			local shadow = Instance.new("Frame")
@@ -272,7 +270,7 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 		if TEXT and TYPE and DURAT then
 			nf = createNotify()
 			table.insert(notifys,nf)
-			for _,g in next,notifys do twplay(g,.4,{Position = g.Position+UDim2.new(0,0,-.12,0)})end
+			for _,g in next,notifys do twplay(g,.4,{Position = g.Position+UDim2.new(0,0,-.26,0)})end
 			if TYPE == 'warn'then
 				icon.Image = 'rbxasset://textures/DevConsole/Warning.png'
 				txt.Text = TEXT
@@ -288,11 +286,9 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 			else return end
 		else return end
 		nf.Parent = GUI
-		warn('created')
 		if IFSOUND then funcs.soundnotify()end
 		task.spawn(function()
 			task.spawn(function()local tww = twplay(nf,.4,{Position = UDim2.new(1,-185,1,-110)})tww.Completed:wait()alrnotifying = false;end)
-			warn('moving')
 			task.delay(DURAT,function()
 				for _ = 0,1.05,.05 do wait()
 					nf.Transparency += _
@@ -309,11 +305,9 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 				end
 				task.wait(.05)
 				nf:Destroy()
-				warn('destroying')
 				for _,t in next,notifys do if(t==nf)then t=nil;end;end
 			end)
 		end)
-		warn('done\n-')
 	end)
 end
 
