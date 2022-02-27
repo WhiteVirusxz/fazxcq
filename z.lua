@@ -29,7 +29,7 @@
 |
 | Current static:
 |  • Version: v1.0.78b [BETA]
-|  • Lines: 1326
+|  • Lines: dunno
 |  • Commands: dunno
 |  • Functioncs: dunno
 ╹
