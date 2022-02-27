@@ -1083,6 +1083,15 @@ function cmds.remove1stperson(args)
 	lplr.CameraMode = 'Classic'
 end
 
+function cmds.message(args)
+	local msg = funcs.getstring(1)
+	if msg~=nil then
+		task.spawn(function()
+			srv.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
+		end)
+	end
+end
+
 function exeCmd(cmd, args)
 	local cmd2 = cmdHandler[cmd]
 	if (cmd2) then cmd2[3](args)updatesave()return end
