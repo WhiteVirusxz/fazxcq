@@ -285,6 +285,7 @@ end
 
 function funcs.minmax(num,min,max,mode)
 	if num==nil then return funcs.errormsg('uerr')end
+	num = string.len(num)
 	local retard = 'Error' 
 	if mode == 'len'then
 		if min and (num < min) then
