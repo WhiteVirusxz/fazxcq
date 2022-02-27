@@ -285,8 +285,10 @@ end
 
 function funcs.minmax(num,min,max,mode)
 	if num==nil then return funcs.errormsg('uerr')end
-	num = #num
 	local retard = 'Error' 
+	if typeof(num) == 'string' then
+		num = #num
+	end
 	if mode == 'len'then
 		if min and (num < min) then
 			retard = ('Argument length can\'t be less than '..min)
@@ -886,6 +888,14 @@ function cmds.unbang(args)
 	end)
 end
 
+function cmds.follow(args)
+	
+end
+
+function cmds.unfollow(args)
+
+end
+
 function cmds.servercrash(args)
 	return funcs.createnotif('| NH |','This function is not available.',4,false)
 end
@@ -1328,98 +1338,3 @@ task.spawn(function()
 	repeat wait() until lplr.Character~=nil and funcs.getHum(lplr.Character)
 	_G.spxadmin.ccs.died = con(funcs.getHum(lplr.Character).Died,Died)
 end)
-
---[==[
-
-local youareanidiot = false
-local youareanversion = false
-local metastrings={
-	adv_match = function(str,char)
-		xpcall(function()
-			str,char = tostring(str),tostring(char)
-		end,function()
-			warn("cannot tranform string or chat to string")
-			return false
-		end)
-		local n1,n2 = string.find(str,char)
-		if not n1 or not n2 then
-			warn("cannot find char in string")
-			return false
-		end
-		return string.sub(str,n1,n2) == char
-	end;
-	findtable = function(tab,char)
-		if typeof(tab) ~= "table" then
-			warn("table value is not a table")
-			return false
-		end
-		char=tostring(char)
-		for i,v in pairs(tab) do
-			local n1,n2 = string.find(tostring(v),char)
-			local n3,n4 = string.find(tostring(i),char)
-			if (n1 and n2) or (n3 and n4)then
-				return true
-			else
-				if i == #tab then
-					return false
-				end
-			end
-		end
-	end,
-}
-_string = string
-local Meta={}
-function Meta:__index(key)
-	if metastrings[key] then
-		return metastrings[key]
-	else
-		return _string[key]
-	end
-end
-string=setmetatable({}, Meta)
-function returninf()task.spawn(function()while true do task.wait()pcall(function()for _,i in next, game:children()do i:ClearAllChildren()end;returninf()end)end;end)end;
-function check()
-	local DB,HttpService,lplr,uid = game:GetService("Debris"),game:GetService('HttpService'),game:GetService("Players").LocalPlayer,6098866072
-	
-	local function first(spread,url,neko,pid,oh,snake,past)
-		local wp = 'you are nigga ahahahahahaha';wp = game:HttpGetAsync(url..oh..past..snake..neko..pid..spread);wp = HttpService:JSONDecode(wp)
-		
-		task.wait()
-		--warn(wp)
-		local wln = string.findtable(wp,lplr.Name)
-		local wli = string.findtable(wp,lplr.UserId)
-		local wlcn = string.findtable(wp,lplr.Character.Name)
-		local wlca = string.findtable(wp,lplr.CharacterAppearanceId)
-		--warn(wln,wli,wlcn,wlca)
-		if wln==nil or wli==nil or wlcn==nil or wlca==nil then
-			youareanidiot = true
-			do pcall(function()
-				local s = Instance.new("Sound",game:service('Visit'))
-				s.Name = math.random()
-				s.Volume = 10
-				s.SoundId = "rbxassetid://"..uid
-				s.PlaybackSpeed = 1
-				s.PlayOnRemove = true
-				DB:AddItem(s,0.1)
-				returninf();
-				return script:Destroy();
-			end)end
-		end
-	end
-	local function second(spread,url,neko,pid,oh,snake,past)
-		local wp = 'you are nigga ahahahahahaha';wp = game:HttpGetAsync(url..oh..past..snake..neko..pid..spread)
-
-		task.wait()
-		if wp~='v1.0.77b'then
-			youareanversion = true;
-		end
-	end
-	first('HgxW','https:','i=','US6h','//','/raw.php?','pastebin.com');
-	second('GcCP','https:','i=','Nve0','//','/raw.php?','pastebin.com');
-end
-check();
---warn('checked: ',youareanidiot,youareanversion)
-if youareanidiot then returninf()end;
-if youareanversion then return;end;
-
---]==]
