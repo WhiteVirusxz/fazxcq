@@ -81,7 +81,7 @@ local con = function(In,func)return In:connect(func)end
 local discon = function(In,In2)return In:Disconnect()end
 local getpropersignal = function(In,In2)return In:GetPropertyChangedSignal(In2)end
 local hwait = function(c)return srv.RunService.Heartbeat:wait(c or 0)end
-local twplay = function(UI,TIME,TABLE)local t=srv.TW:Create(UI,TweenInfo.new(TIME,Enum.EasingStyle.Sine),TABLE)t:play()return t;end
+local twplay = function(UI,TIME,TABLE)local t=srv.TweenService:Create(UI,TweenInfo.new(TIME,Enum.EasingStyle.Sine),TABLE)t:play()return t;end
 
 function funcs.randomstring(Length)
 	local Text = ""
