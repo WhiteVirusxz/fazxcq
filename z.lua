@@ -431,7 +431,7 @@ function cmds.commands(args)
 end
 
 function cmds.rfly(args)
-	if not flying and lplr.Character~=nil then
+	if not flying and lplr.Character~=nil and not following and not banging then
 		flying = true
 		local Keys,Timing = {W = false,A = false,S = false,D = false},{Throttle = 1,Sine = 0,LastFrame = tick()}
 		local Movement = {
@@ -847,25 +847,25 @@ function cmds.bang(args)
 	local speedbang = tonumber(args[2])
 	if funcs.minmax(speedbang,1,15,'def')=='acc'then
 		local p = funcs.findplayer(args[1])
-		if p~=nil and p~=lplr then
+		if p~=nil and p~=lplr and not following then
 			if p.Character~=nil and funcs.getHum(p.Character) then
-				if not banging then
-					bangAnim = Instance.new("Animation")
-					bangAnim.AnimationId = "rbxassetid://148840371"
-					bang = funcs.getHum(lplr.Character):LoadAnimation(bangAnim)
-					bang:Play(.1,1,1)
-					bang:AdjustSpeed(speedbang)
-					banging = true
-					task.spawn(function()
-						while banging and lplr.Character~=nil do
-							wait()
-							if lplr.Character~=nil then
-								funcs.getRoot(lplr.Character).CFrame = funcs.getRoot(p.Character).CFrame + funcs.getRoot(p.Character).CFrame.lookVector * -1
-								funcs.getRoot(lplr.Character).AssemblyLinearVelocity = Vector3.new()
-							end
-						end
-					end)
+				if banging then
+					banging = false
 				end
+				bangAnim = Instance.new("Animation")
+				bangAnim.AnimationId = "rbxassetid://148840371"
+				bang = funcs.getHum(lplr.Character):LoadAnimation(bangAnim)
+				bang:Play(.1,1,1)
+				bang:AdjustSpeed(speedbang)
+				banging = true
+				task.spawn(function()
+					while banging do task.wait()
+						if lplr.Character~=nil then
+							funcs.getRoot(lplr.Character).CFrame = funcs.getRoot(p.Character).CFrame + funcs.getRoot(p.Character).CFrame.lookVector * -1
+							funcs.getRoot(lplr.Character).AssemblyLinearVelocity = Vector3.new()
+						end
+					end
+				end)
 			end
 		end
 	end
@@ -891,18 +891,20 @@ end
 function cmds.follow(args)
 	if args[1]==nil then return funcs.errormsg(1) end
 	local p = funcs.findplayer(args[1])
-	if p~=nil and p~=lplr then
+	if p~=nil and p~=lplr and not banging then
 		if p.Character~=nil and funcs.getHum(p.Character) then
 			if following then
 				following = false
 			end
 			following = true
-			while following do task.wait()
-				if lplr.Character~=nil then
-					funcs.getRoot(lplr.Character).CFrame=
-						funcs.getRoot(p.Character).CFrame*CFrame.new(0,.8,0)
+			task.spawn(function()
+				while following do task.wait()
+					if lplr.Character~=nil then
+						funcs.getRoot(lplr.Character).CFrame=
+							funcs.getRoot(p.Character).CFrame*CFrame.new(0,.8,0)
+					end
 				end
-			end
+			end)
 		end
 	end
 end
