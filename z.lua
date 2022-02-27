@@ -66,7 +66,6 @@ local disconnected,flying,rfling,antifling,banging,following,alrnotifying =
 	false,false,false,false,false,false,false
 
 local GUI = Instance.new('ScreenGui')
-local popup = Instance.new('ViewportFrame')
 local cmdsh = Instance.new('Frame',GUI)
 local cmdbox = nil
 
@@ -159,9 +158,8 @@ do
 		return oldindex(self,...)
 	end)
 	setreadonly(mt, true)
-	
+
 	set_properties(GUI,{Enabled = true, ResetOnSpawn = false, Parent = srv.CoreGui})
-	set_properties(popup,{Position = UDim2.new(0,5000,0,-5000), Parent = GUI})
 	if writefile and readfile then loadsave()else loaddef()end
 
 	lplr.DevEnableMouseLock = shiftlock
@@ -169,8 +167,8 @@ end
 
 -- Functions
 function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
-	-- hide gui  {0, -3611},{1.5, 5562}
-	-- open gui  {0, -3611},{0, 5562}
+	-- open gui   {.883,0},{.839,0}
+	-- hide gui   {.883,0},{1.2,0}
 	task.spawn(function()
 		warn('start')
 		repeat wait()until not alrnotifying
@@ -186,15 +184,15 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 			local LINE = Instance.new("Frame")
 			local IMG = Instance.new("ImageLabel")
 			set_properties(shadow,{
-				Parent = popup,
-				BackgroundColor3 = Color3.fromRGB(33, 33, 33),
+				Parent = GUI,
+				BackgroundColor3 = Color3.fromRGB(33,33,33),
 				BorderSizePixel = 0,
-				Position = UDim2.new(0,-3611,0,5562),
+				Position = UDim2.new(.835535705,0,.610632002,0),
 				Size = UDim2.new(0,184,0,100)
 			})
 			set_properties(out,{
 				Parent = shadow,
-				BackgroundColor3 = Color3.fromRGB(34, 34, 34),
+				BackgroundColor3 = Color3.fromRGB(34,34,34),
 				BorderSizePixel = 0,
 				Position = UDim2.new(.0155362329,0,.0288333334,0),
 				Size = UDim2.new(0,178,0,94)
@@ -204,11 +202,11 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 				BackgroundColor3 = Color3.new(1,1,1),
 				BackgroundTransparency = 1,
 				ClipsDescendants = true,
-				Position = UDim2.new(0.196629226, 0, 0.0106382975, 0),
+				Position = UDim2.new(.196629226,0,.0106382975,0),
 				Size = UDim2.new(0,50,0,30),
 				Font = Enum.Font.Cartoon,
 				Text = "SPX",
-				TextColor3 = Color3.fromRGB(255, 255, 255),
+				TextColor3 = Color3.new(1,1,1),
 				TextSize = 24,
 				TextStrokeColor3 = Color3.new(1,1,1),
 				TextStrokeTransparency = .830,
@@ -277,14 +275,14 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 				txt.TextColor3 = Color3.new(1,1,1)
 			else return end
 		else return end
-		nf.Parent = popup;
+		nf.Parent = GUI
 		warn('created')
 		if IFSOUND then funcs.soundnotify()end
 		task.spawn(function()
-			task.spawn(function()local tww = twplay(nf,.4,{Position = UDim2.new(0,-3611,0,5562)})tww.Completed:wait()alrnotifying = false;end)
+			task.spawn(function()local tww = twplay(nf,.4,{Position = UDim2.new(.883,0,.839,0)})tww.Completed:wait()alrnotifying = false;end)
 			warn('moving')
 			task.delay(DURAT,function()
-				for _ = 0,1,.05 do wait()
+				for _ = 0,1.05,.05 do wait()
 					nf.Transparency += _
 					for z,c in next, nf:GetDescendants()do
 						if c:IsA('Frame')then
@@ -299,10 +297,11 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 				end
 				task.wait(.05)
 				nf:Destroy()
+				warn('destroying')
 				for _,t in next,notifys do if(t==nf)then t=nil;end;end
 			end)
 		end)
-		warn('done\n')
+		warn('done\n-')
 	end)
 end
 
