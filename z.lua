@@ -917,7 +917,7 @@ function cmds.cmdboxkey(args)
 	local key = args[1]
 	if funcs.minmax(key,1,1,'len')=='acc'then
 		cmdboxkey = key
-		return funcs.createnotif('| NH |', 'Command box key setted to '..key)
+		funcs.createnotif('| NH |', 'Command box key setted to '..key)
 	end
 end
 
@@ -926,7 +926,7 @@ function cmds.flykey(args)
 	local key = args[1]
 	if funcs.minmax(key,1,1,'len')=='acc'then
 		flykey = key
-		return funcs.createnotif('| NH |', 'RFly key setted to '..key)
+		funcs.createnotif('| NH |', 'RFly key setted to '..key)
 	end
 end
 
