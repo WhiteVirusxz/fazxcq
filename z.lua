@@ -65,7 +65,8 @@ local headSit,bang,bangAnim,argstosay;
 local disconnected,flying,rfling,antifling,banging,following,alrnotifying =
 	false,false,false,false,false,false,false
 
-local GUI = Instance.new('ScreenGui')GUI.Enabled=true
+local GUI = Instance.new('ScreenGui')
+local popup = Instance.new('ViewportFrame',GUI)
 local cmdsh = Instance.new('Frame',GUI)
 local cmdbox = nil
 
@@ -158,7 +159,8 @@ do
 		return oldindex(self,...)
 	end)
 	setreadonly(mt, true)
-
+	
+	set_properties(popup,{Size = UDim2.new(0,0,0,0), Position = UDim2.new(0,5000,0,-5000)})
 	set_properties(GUI,{Enabled = true, ResetOnSpawn = false, Parent = srv.CoreGui})
 	if writefile and readfile then loadsave()else loaddef()end
 
@@ -167,6 +169,8 @@ end
 
 -- Functions
 function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
+	-- hide gui  {0, -3611},{1.5, 5562}
+	-- open gui  {0, -3611},{0, 5562}
 	task.spawn(function()
 		warn('start')
 		repeat wait()until not alrnotifying
@@ -182,10 +186,9 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 			local LINE = Instance.new("Frame")
 			local IMG = Instance.new("ImageLabel")
 			set_properties(shadow,{
-				Parent = GUI,
 				BackgroundColor3 = Color3.fromRGB(33, 33, 33),
 				BorderSizePixel = 0,
-				Position = UDim2.new(.835535705,0,.610632002,0),
+				Position = UDim2.new(0,-3611,0,5562),
 				Size = UDim2.new(0,184,0,100)
 			})
 			set_properties(out,{
@@ -273,7 +276,7 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 				txt.TextColor3 = Color3.new(1,1,1)
 			else return end
 		else return end
-		nf.Parent = GUI
+		nf.Parent = popup
 		warn('created')
 		if IFSOUND then funcs.soundnotify()end
 		task.spawn(function()
