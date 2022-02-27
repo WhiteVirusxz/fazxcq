@@ -889,11 +889,24 @@ function cmds.unbang(args)
 end
 
 function cmds.follow(args)
-	
+	if args[1]==nil then return funcs.errormsg(1) end
+	local p = funcs.findplayer(args[1])
+	if p~=nil and p~=lplr then
+		if p.Character~=nil and funcs.getHum(p.Character) then
+			if following then
+				following = false
+			end
+			following = true
+			while following do task.wait()
+				funcs.getRoot(lplr.Character).HumanoidRootPart.CFrame=
+					funcs.getRoot(p.Character).HumanoidRootPart.CFrame + funcs.getRoot(p.Character).Character.HumanoidRootPart.CFrame.lookVector * -5
+			end
+		end
+	end
 end
 
 function cmds.unfollow(args)
-
+	following = false
 end
 
 function cmds.servercrash(args)
@@ -1322,6 +1335,16 @@ do
 				[2] = {'r1p'},
 				[3] = cmds.remove1stperson,
 			},
+			follow = {
+				[1] = "follow:  Follow player",
+				[2] = {},
+				[3] = cmds.follow,
+			},
+			unfollow = {
+				[1] = "unfollow:  UnFollow player",
+				[2] = {},
+				[3] = cmds.unfollow,
+			}
 		}
 
 		for _,p in next, srv.Players:GetPlayers() do
