@@ -167,8 +167,8 @@ end
 
 -- Functions
 function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
-	-- open gui   {.883,0},{.839,0}
-	-- hide gui   {.883,0},{1.2,0}
+	-- open gui   {1,-250},{1,-220}
+	-- hide gui   {1,-250},{2,-220}
 	task.spawn(function()
 		warn('start')
 		repeat wait()until not alrnotifying
@@ -187,15 +187,19 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 				Parent = GUI,
 				BackgroundColor3 = Color3.fromRGB(33,33,33),
 				BorderSizePixel = 0,
-				Position = UDim2.new(.835535705,0,.610632002,0),
-				Size = UDim2.new(0,184,0,100)
+				Position = UDim2.new(1,0,1,0),
+				Size = UDim2.new(0,184,0,100),
+				Active = true,
+				ZIndex = 11
 			})
 			set_properties(out,{
 				Parent = shadow,
 				BackgroundColor3 = Color3.fromRGB(34,34,34),
 				BorderSizePixel = 0,
 				Position = UDim2.new(.0155362329,0,.0288333334,0),
-				Size = UDim2.new(0,178,0,94)
+				Size = UDim2.new(0,178,0,94),
+				Active = true,
+				ZIndex = 11
 			})
 			set_properties(UP_TXT,{
 				Parent = out,
@@ -210,7 +214,9 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 				TextSize = 24,
 				TextStrokeColor3 = Color3.new(1,1,1),
 				TextStrokeTransparency = .830,
-				TextWrapped = true
+				TextWrapped = true,
+				Active = true,
+				ZIndex = 11
 			})
 			set_properties(DO_TXT,{
 				Parent = out,
@@ -225,14 +231,18 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 				TextSize = 18,
 				TextStrokeColor3 = Color3.new(1,1,1),
 				TextStrokeTransparency = .985,
-				TextWrapped = true
+				TextWrapped = true,
+				Active = true,
+				ZIndex = 11
 			})
 			set_properties(LINE,{
 				Parent = out,
 				BackgroundColor3 = Color3.new(1,1,1),
 				BorderColor3 = Color3.new(1,1,1),
 				Position = UDim2.new(.0337078646,0,.340425521,0),
-				Size = UDim2.new(0,166,0,1)
+				Size = UDim2.new(0,166,0,1),
+				Active = true,
+				ZIndex = 11
 			})
 			set_properties(IMG,{
 				Parent = out,
@@ -240,7 +250,9 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 				BackgroundTransparency = 1,
 				Size = UDim2.new(0,29,0,29),
 				Image = "rbxasset://textures/DevConsole/Warning.png",
-				SliceScale = 0
+				SliceScale = 0,
+				Active = true,
+				ZIndex = 11
 			})
 
 			set_properties(Instance.new("UICorner"),{
@@ -279,7 +291,7 @@ function funcs.createnotif(TEXT,TYPE,DURAT,IFSOUND)
 		warn('created')
 		if IFSOUND then funcs.soundnotify()end
 		task.spawn(function()
-			task.spawn(function()local tww = twplay(nf,.4,{Position = UDim2.new(.883,0,.839,0)})tww.Completed:wait()alrnotifying = false;end)
+			task.spawn(function()local tww = twplay(nf,.4,{Position = UDim2.new(1,-185,1,-110)})tww.Completed:wait()alrnotifying = false;end)
 			warn('moving')
 			task.delay(DURAT,function()
 				for _ = 0,1.05,.05 do wait()
@@ -1227,9 +1239,9 @@ function keyDown(k)
 		cmdbox = Instance.new("Frame")
 		local box = Instance.new("TextBox")
 		local label1 = Instance.new("TextLabel")
-		set_properties(label1,{Size = UDim2.new(0,15,1,0), TextSize = 10, BackgroundTransparency = 1, TextColor3 = textcol, Text = ">", Parent = cmdbox})
-		set_properties(box,{Text = "", PlaceholderText = "Insert Command",PlaceholderColor3 = Color3.fromRGB((textcol.R*255)/2,(textcol.G*255)/2,(textcol.B*255)/2), Size = UDim2.new(1,-15,1,0),TextXAlignment = Enum.TextXAlignment.Left, Position = UDim2.new(0,15,0,0), TextColor3 = textcol, BackgroundTransparency = 1,TextSize = 14, Font = Enum.Font.Arcade, TextWrapped = true, ClearTextOnFocus = false, Parent = cmdbox})
-		set_properties(cmdbox,{Size = UDim2.new(0.4,0,0,20), Position = UDim2.new(0.5,0,0,-100), AnchorPoint = Vector2.new(0.5,0), BorderSizePixel = 0, BackgroundColor3 = secondarycol, Parent = GUI})
+		set_properties(label1,{Size = UDim2.new(0,15,1,0), TextSize = 10, BackgroundTransparency = 1, TextColor3 = textcol, Text = ">", Parent = cmdbox, Active = true, ZIndex = 11})
+		set_properties(box,{Text = "", PlaceholderText = "Insert Command",PlaceholderColor3 = Color3.fromRGB((textcol.R*255)/2,(textcol.G*255)/2,(textcol.B*255)/2), Size = UDim2.new(1,-15,1,0),TextXAlignment = Enum.TextXAlignment.Left, Position = UDim2.new(0,15,0,0), TextColor3 = textcol, BackgroundTransparency = 1,TextSize = 14, Font = Enum.Font.Arcade, TextWrapped = true, ClearTextOnFocus = false, Parent = cmdbox, Active = true, ZIndex = 11})
+		set_properties(cmdbox,{Size = UDim2.new(0.4,0,0,20), Position = UDim2.new(0.5,0,0,-100), AnchorPoint = Vector2.new(0.5,0), BorderSizePixel = 0, BackgroundColor3 = secondarycol, Parent = GUI, Active = true, ZIndex = 11})
 		local lasttext = ""
 		wait()
 		box.Text = ""
