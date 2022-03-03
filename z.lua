@@ -143,7 +143,6 @@ local pohvalno = {
 	['VannyVenumn'] = 'CoolUser',
 	["Rainbow_Dose"] = 'CoolUser',
 	["56789j7"] = 'CoolUser',
-	["LullaBellu"] = 'CoolUser',
 }
 local mt,oldindex,ncallsa
 do
