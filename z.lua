@@ -942,7 +942,7 @@ do
 		local speedbang = tonumber(args[2])
 		if funcs.minmax(speedbang,1,15,'def')=='acc'then
 			local p = funcs.findplayer(args[1])
-			if p~=nil and p~=lplr and not following then
+			if p~=nil and p~=lplr and not following and not riding then
 				if p.Character~=nil and getHum(p.Character) then
 					if banging then
 						banging = false
@@ -986,7 +986,7 @@ do
 	function cmds.follow(args)
 		if args[1]==nil then return funcs.errormsg(1) end
 		local p = funcs.findplayer(args[1])
-		if p~=nil and p~=lplr and not banging then
+		if p~=nil and p~=lplr and not banging and not riding then
 			if p.Character~=nil and getHum(p.Character) then
 				if following then
 					following = false
@@ -1011,7 +1011,7 @@ do
 	function cmds.ride(args)
 		if args[1]==nil then return funcs.errormsg(1) end
 		local p = funcs.findplayer(args[1])
-		if p~=nil and p~=lplr and not banging then
+		if p~=nil and p~=lplr and not banging and not following then
 			if p.Character~=nil and getHum(p.Character) then
 				if riding then
 					riding = false
