@@ -28,7 +28,7 @@
 |
 |
 | Current static:
-|  • Version: v1.0.79b [BETA]
+|  • Version: v1.1.0b [BETA]
 |  • Lines: dunno
 |  • Commands: dunno
 |  • Functioncs: dunno
