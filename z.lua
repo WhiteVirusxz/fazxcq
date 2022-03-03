@@ -991,7 +991,7 @@ do
 					task.spawn(function()
 						if gameid == 492245779 then
 							while following do task.wait()
-								if lplr.Character~=nil and p.Charater~=nil then
+								if lplr.Character~=nil and p.Character~=nil then
 									getRoot(lplr.Character).CFrame=
 										getRoot(p.Character).CFrame*CFrame.new(0,.8,0)
 								end
@@ -1474,9 +1474,12 @@ do
 			_G.spxadmin.ccs.died = con(getHum(lplr.Character).Died,Died)
 		end)
 	end)
-	if not suc then
-		funcs.createnotif('Got an error, check console.','error',4,true)
-		warn(err)
-		debug.traceback(suc)
-	end
+	task.spawn(function()
+		while true do wait()
+			if not suc then
+				warn(err)
+				debug.traceback(suc)
+			end
+		end
+	end)
 end
