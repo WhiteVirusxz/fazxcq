@@ -679,15 +679,16 @@ do
 					end
 				end
 			end)
-			funcs.createnotif('Fly is now on','succ',5,false)
+			funcs.createnotif('RFly is now on','succ',5,false)
 		elseif flying then
 			rfling = false
+			funcs.createnotif('RFling is now off','succ',5,false)
 			wait()
 			flying = false
 			for _,c in next, _G.spxadmin.ccs.fly do
 				discon(c)
 			end
-			funcs.createnotif('Fly is now off','succ',5,false)
+			funcs.createnotif('RFly is now off','succ',5,false)
 		end
 	end
 
