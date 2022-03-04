@@ -1021,7 +1021,7 @@ do
 					while riding do task.wait()
 						if lplr.Character~=nil and p.Character~=nil then
 							getRoot(lplr.Character).CFrame=
-								getRoot(p.Character).CFrame*CFrame.new(0,.8,0)
+								getRoot(p.Character).CFrame*CFrame.new(0,1.1,0)
 						end
 					end
 				end)
