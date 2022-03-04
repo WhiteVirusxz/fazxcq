@@ -466,9 +466,9 @@ do
 				end)
 			end
 			antirejoin = oh
-		else return	end
+		else return false end
 		setreadonly(mt, true)
-		return funcs.createnotif('Anti-'..w..' is now '..tostring(oh),'succ',5,false);
+		funcs.createnotif('Anti-'..w..' is now '..tostring(oh),'succ',5,false);
 	end
 
 	-- Commands
@@ -823,6 +823,7 @@ do
 							end
 						end
 					end)
+					funcs.createnotif('Banging now '..p.Name,'succ',5,false)
 				end
 			end
 		end
@@ -841,6 +842,7 @@ do
 					hum:LoadAnimation(anim)
 					anim:Play()
 				end
+				funcs.createnotif('Not banging now','succ',5,false)
 			end
 		end)
 	end
@@ -862,12 +864,14 @@ do
 						end
 					end
 				end)
+				funcs.createnotif('Following now '..p.Name,'succ',5,false)
 			end
 		end
 	end
 
 	function cmds.unfollow(args)
 		following = false
+		funcs.createnotif('Not following now','succ',5,false)
 	end
 
 	function cmds.ride(args)
@@ -887,12 +891,14 @@ do
 						end
 					end
 				end)
+				funcs.createnotif('Riding now'..p.Name,'succ',5,false)
 			end
 		end
 	end
 
 	function cmds.unride(args)
 		riding = false
+		funcs.createnotif('Now not riding','succ',5,false)
 	end
 
 	function cmds.servercrash(args)
@@ -919,7 +925,7 @@ do
 		else
 			return funcs.errormsg('boolean')
 		end
-		return funcs.createnotif('ShiftLock is now: '..onof,'succ',5,false)
+		funcs.createnotif('ShiftLock is now: '..onof,'succ',5,false)
 	end
 
 	function cmds.cmdboxkey(args)
@@ -951,6 +957,7 @@ do
 				end
 			end)
 		end
+		funcs.createnotif('Muted all sounds','succ',5,false)
 	end
 
 	function cmds.unmutesounds(args)
@@ -961,6 +968,7 @@ do
 				end
 			end)
 		end
+		funcs.createnotif('UnMuted all sounds','succ',5,false)
 	end
 
 	function cmds.antifling(args)
@@ -968,6 +976,7 @@ do
 		local onof = args[1]
 		if onof == 'false' or onof == 'true' then
 			antifling = onof
+			funcs.createnotif('Anti-Fling is now '..onof,'succ',5,false)
 			if not antifling then
 				task.spawn(function()
 					while antifling do task.wait()
