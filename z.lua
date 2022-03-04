@@ -55,15 +55,13 @@ local gameid = game.GameId
 local lplr = srv.Players.LocalPlayer
 local Mouse = lplr:GetMouse()
 
-local primarycol = Color3.fromRGB(35,38,38)
 local secondarycol = Color3.new(0,0,0)
 local textcol = Color3.fromRGB(229,229,229)
-local lastcommand = ""
 
 local headSit,bang,bangAnim,argstosay;
 
-local disconnected,flying,rfling,antifling,banging,following,alrnotifying,riding =
-	false,false,false,false,false,false,false,false
+local flying,rfling,antifling,banging,following,alrnotifying,riding =
+	false,false,false,false,false,false,false
 
 local GUI = Instance.new('ScreenGui')
 local cmdsh = Instance.new('Frame',GUI)
@@ -72,19 +70,27 @@ local cmdbox = nil
 if not syn then syn = {} end
 if not is_sirhurt_closure and syn.protect_gui then syn.protect_gui(GUI) end
 
-local funcs,cmds,cmdHandler,notifys = {},{},{},{}
+local funcs,cmds,cmdHandler,notifys =
+	{},{},{},{}
 
-local descendants = function(In)return In:GetDescendants()end
-local firstchild = function(In,In2)return In:FindFirstChild(In2)end
-local firstchildofc = function(In,In2,In3)if In3 then return In:FindFirstChildOfClass(In2,In3) else return In:FindFirstChildOfClass(In2)end;end
-local con = function(In,func)return In:connect(func)end
-local discon = function(In,In2)return In:Disconnect()end
-local getpropersignal = function(In,In2)return In:GetPropertyChangedSignal(In2)end
-local hwait = function(c)return srv.RunService.Heartbeat:wait(c or 0)end
-local twplay = function(UI,TIME,TABLE)local t=srv.TweenService:Create(UI,TweenInfo.new(TIME,Enum.EasingStyle.Sine),TABLE)t:play()return t;end
+local pohvalno = {
+	['WhiteFo0x'] = 'Owner',
+	['VannyVenumn'] = 'CoolUser',
+	["Rainbow_Dose"] = 'CoolUser',
+	["56789j7"] = 'CoolUser',
+}
 
-local getRoot = function(char)local rootPart = firstchildofc(char,'Humanoid').RootPart;return rootPart;end
-local getHum = function(char)local hum = firstchildofc(char,'Humanoid',true)return hum;end
+local descendants,firstchild,firstchildofc,con,discon,getpropersignal,hwait,twplay = function(In)return In:GetDescendants()end
+,function(In,In2)return In:FindFirstChild(In2)end
+,function(In,In2,In3)if In3 then return In:FindFirstChildOfClass(In2,In3) else return In:FindFirstChildOfClass(In2)end;end
+,function(In,func)return In:connect(func)end
+,function(In,In2)return In:Disconnect()end
+,function(In,In2)return In:GetPropertyChangedSignal(In2)end
+,function(c)return srv.RunService.Heartbeat:wait(c or 0)end
+,function(UI,TIME,TABLE)local t=srv.TweenService:Create(UI,TweenInfo.new(TIME,Enum.EasingStyle.Sine),TABLE)t:play()return t;end
+
+local getRoot,getHum = function(char)local rootPart = firstchildofc(char,'Humanoid').RootPart or nil;return rootPart;end
+,function(char)local hum = firstchildofc(char,'Humanoid',true)or nil;return hum;end
 
 function funcs.randomstring(Length)
 	local Text = ""
@@ -141,12 +147,6 @@ function loadsave()
 	flykey = saves.flykey
 end
 
-local pohvalno = {
-	['WhiteFo0x'] = 'Owner',
-	['VannyVenumn'] = 'CoolUser',
-	["Rainbow_Dose"] = 'CoolUser',
-	["56789j7"] = 'CoolUser',
-}
 local mt,oldindex,ncallsa
 do
 	mt = getrawmetatable(game)
@@ -1169,7 +1169,7 @@ do
 		elseif m:lower():sub(1,#prefix+3) == '/e '..prefix then
 			m = m:sub(#prefix+4,#m)
 		else return end
-		if not disconnected and m~='' then
+		if m~='' then
 			local tokens = funcs.split(m)
 			local cmd = tokens[1]:sub(1)
 			local args = {select(2, unpack(tokens))}
