@@ -28,7 +28,7 @@
 |
 |
 | Current static:
-|  • Version: v1.1.1b [BETA]
+|  • Version: v1.1.2b [BETA]
 |  • Lines: dunno
 |  • Commands: dunno
 |  • Functioncs: dunno
@@ -473,9 +473,8 @@ do
 
 	-- Commands
 	function cmds.commands(args)
-		set_properties(GUI,{Enabled = false, Parent = srv.CoreGui})
 		cmdsh = Instance.new('Frame',GUI)
-		set_properties(cmdsh,{BackgroundColor3 = Color3.fromRGB(25,25,25), BackgroundTransparency = 0.3, Position = UDim2.new(0.709,0,0.335,0), Size = UDim2.new(0,309,0,281), ClipsDescendants = true})
+		set_properties(cmdsh,{BackgroundColor3 = Color3.fromRGB(25,25,25), BackgroundTransparency = 0.3, Position = UDim2.new(0.709,0,0.335,0), Size = UDim2.new(0,309,0,281), ClipsDescendants = true, Visible = false})
 		local aspect = Instance.new('UIAspectRatioConstraint',cmdsh)
 		set_properties(aspect,{AspectRatio = 1, DominantAxis = "Width", AspectType = "ScaleWithParentSize"})
 		local corn1 = Instance.new('UICorner',cmdsh)
@@ -499,7 +498,7 @@ do
 				if _==__ then
 					local command = newCMD:Clone()
 					command.Name = funcs.randomstring()
-					command.Text = _[0]..': '..c[1]
+					command.Text = c[4]..': '..c[1]
 					command.Parent = CMDc
 					hwait()
 				end
@@ -524,7 +523,7 @@ do
 		end
 		_G.spxadmin.ccs.cmdlc = con(clcmd.MouseButton1Click,funcs.ccmdsl)
 		_G.spxadmin.ccs.cmdlcs = con(getpropersignal(searchbox,'Text'),updateSearch)
-		set_properties(GUI,{Enabled = true})
+		set_properties(cmdsh,{Visible = true})
 	end
 
 	function cmds.rfly(args)
@@ -1114,19 +1113,21 @@ do
 					local x = 1
 					if(box.Text~="")or(box.Text~=" ")then
 						for _,v in next, cmdHandler do
-							if string.find(_.." ",box.Text:sub(1,_:len())) then
-								local lab = Instance.new("TextLabel",cmdbox)
-								table.insert(labs, lab)
-								lab.Size = UDim2.new(1,0,1,0)
-								lab.TextSize = 12
-								lab.TextXAlignment = Enum.TextXAlignment.Left
-								lab.BorderSizePixel = 0
-								lab.Position = UDim2.new(0,0,x+(x*0.05),0)
-								lab.BackgroundColor3 = secondarycol
-								lab.TextColor3 = textcol
-								lab.Font = Enum.Font.Arcade
-								lab.Text = "   ".._[0]
-								x = x+1
+							for __,s in next, v[2]do
+								if string.find(_..' ',box.Text:sub(1,_:len()))or string.find(s..' ',box.Text:sub(1,_:len()+1+s:len()))then
+									local lab = Instance.new("TextLabel",cmdbox)
+									table.insert(labs, lab)
+									lab.Size = UDim2.new(1,0,1,0)
+									lab.TextSize = 12
+									lab.TextXAlignment = Enum.TextXAlignment.Left
+									lab.BorderSizePixel = 0
+									lab.Position = UDim2.new(0,0,x+(x*0.05),0)
+									lab.BackgroundColor3 = secondarycol
+									lab.TextColor3 = textcol
+									lab.Font = Enum.Font.Arcade
+									lab.Text = "   "..v[4]
+									x = x+1
+								end
 							end
 						end
 					end
@@ -1189,199 +1190,199 @@ do
 		coroutine.resume(coroutine.create(function()
 			cmdHandler = {
 				commands = {
-					[0] = 'commands/cmds',
+					[4] = 'commands/cmds',
 					[1] = "Show commands list",
 					[2] = {'cmds'},
 					[3] = cmds.commands,
 				},
 				rfly = {
-					[0] = 'rfly',
+					[4] = 'rfly',
 					[1] = "Enable/disable fly",
 					[2] = {},
 					[3] = cmds.rfly,
 				},
 				rflyspeed = {
-					[0] = 'rflyspeed/rfs <speed>',
+					[4] = 'rflyspeed/rfs <speed>',
 					[1] = "Change fly speed",
 					[2] = {'rfs'},
 					[3] = cmds.rflyspeed,
 				},
 				rejoin = {
-					[0] = 'rejoin/rj',
+					[4] = 'rejoin/rj',
 					[1] = "Reconnect to the server",
 					[2] = {'rj'},
 					[3] = cmds.rejoin,
 				},
 				rfling = {
-					[0] = 'rfling',
+					[4] = 'rfling',
 					[1] = "Enabled/disable fling  [only with fly]",
 					[2] = {},
 					[3] = cmds.rfling,
 				},
 				view = {
-					[0] = 'view/spectate/spec [user]',
+					[4] = 'view/spectate/spec [user]',
 					[1] = "Spectate the player",
 					[2] = {'spectate','spec'},
 					[3] = cmds.view,
 				},
 				unview = {
-					[0] = 'unview/unspectate/unspec',
+					[4] = 'unview/unspectate/unspec',
 					[1] = "Stop spectate",
 					[2] = {'unspectate','unspec'},
 					[3] = cmds.unview,
 				},
 				sync = {
-					[0] = 'sync [user]',
+					[4] = 'sync [user]',
 					[1] = "Copy player character",
 					[2] = {},
 					[3] = cmds.sync,
 				},
 				teleport = {
-					[0] = 'teleport/to/tp [user]',
+					[4] = 'teleport/to/tp [user]',
 					[1] = "Teleport to player",
 					[2] = {'to','tp'},
 					[3] = cmds.teleport,
 				},
 				prefix = {
-					[0] = 'prefix/p [prefix]',
+					[4] = 'prefix/p [prefix]',
 					[1] = "Set commands prefix",
 					[2] = {'p'},
 					[3] = cmds.prefix,
 				},
 				music = {
-					[0] = 'music/mus <Id>',
+					[4] = 'music/mus <Id>',
 					[1] = "Fires music remote",
 					[2] = {'mus'},
 					[3] = cmds.music,
 				},
 				earrape = {
-					[0] = 'errape',
+					[4] = 'errape',
 					[1] = "Do your ears bloody ;D",
 					[2] = {},
 					[3] = cmds.earrape,
 				},
 				bang = {
-					[0] = 'bang [user] <speed>',
+					[4] = 'bang [user] <speed>',
 					[1] = "Bang someone",
 					[2] = {},
 					[3] = cmds.bang,
 				},
 				unbang = {
-					[0] = 'unbang',
+					[4] = 'unbang',
 					[1] = "Stop banging",
 					[2] = {},
 					[3] = cmds.unbang,
 				},
 				servercrash = {
-					[0] = 'servercrash/sc',
+					[4] = 'servercrash/sc',
 					[1] = "Attempt to crash server",
 					[2] = {'sc'},
 					[3] = cmds.servercrash,
 				},
 				antikick = {
-					[0] = 'antikick/akk <false/true>',
+					[4] = 'antikick/akk <false/true>',
 					[1] = "Disable/Enable Anti-Kick",
 					[2] = {'akk'},
 					[3] = cmds.antikick,
 				},
 				antirejoin = {
-					[0] = 'antirejoin/arj <false/true>',
+					[4] = 'antirejoin/arj <false/true>',
 					[1] = "Disable/Enable Anti-Rejoin",
 					[2] = {'arj'},
 					[3] = cmds.antirejoin,
 				},
 				shiftlock = {
-					[0] = 'shiftlock/sfl <false/true>',
+					[4] = 'shiftlock/sfl <false/true>',
 					[1] = "Disable/Enable shiftlock",
 					[2] = {'sfl'},
 					[3] = cmds.shiftlock,
 				},
 				cmdboxkey = {
-					[0] = 'cmdboxkey [KEY]',
+					[4] = 'cmdboxkey [KEY]',
 					[1] = "Set command box key",
 					[2] = {},
 					[3] = cmds.cmdboxkey,
 				},
 				flykey = {
-					[0] = 'flykey [KEY]',
+					[4] = 'flykey [KEY]',
 					[1] = "Set RFly key",
 					[2] = {},
 					[3] = cmds.flykey,
 				},
 				mutesounds = {
-					[0] = 'mutesounds/ms',
+					[4] = 'mutesounds/ms',
 					[1] = "Disable all sounds in game",
 					[2] = {'ms'},
 					[3] = cmds.mutesounds,
 				},
 				unmutesounds = {
-					[0] = 'unmutesounds/ums',
+					[4] = 'unmutesounds/ums',
 					[1] = "Enable all sounds in game",
 					[2] = {'ums'},
 					[3] = cmds.unmutesounds,
 				},
 				antifling = {
-					[0] = 'antifling/af <false/true>',
+					[4] = 'antifling/af <false/true>',
 					[1] = "Disable/Enable Anti-Fling",
 					[2] = {'af'},
 					[3] = cmds.antifling,
 				},
 				respawn = {
-					[0] = 'respawn/rs',
+					[4] = 'respawn/rs',
 					[1] = "Respawn character",
 					[2] = {'rs'},
 					[3] = cmds.respawn,
 				},
 				headsit = {
-					[0] = 'headsit [user]',
+					[4] = 'headsit [user]',
 					[1] = "Sit on player head",
 					[2] = {},
 					[3] = cmds.headsit,
 				},
 				whisper = {
-					[0] = 'whisper/pm [user] [message]',
+					[4] = 'whisper/pm [user] [message]',
 					[1] = "Send PM message to user",
 					[2] = {'pm'},
 					[3] = cmds.whisper,
 				},
 				nofog = {
-					[0] = 'nofog',
+					[4] = 'nofog',
 					[1] = "Remove Lighting FOG",
 					[2] = {},
 					[3] = cmds.nofog,
 				},
 				clearnilinstances = {
-					[0] = 'clearnilinstances/cni',
+					[4] = 'clearnilinstances/cni',
 					[1] = "Clear all what in NIL",
 					[2] = {'cni'},
 					[3] = cmds.clearnilinstances,
 				},
 				remove1stperson = {
-					[0] = 'remove1stperson/r1p',
+					[4] = 'remove1stperson/r1p',
 					[1] = "Remove first person limits",
 					[2] = {'r1p'},
 					[3] = cmds.remove1stperson,
 				},
 				follow = {
-					[0] = 'follow [user]',
+					[4] = 'follow [user]',
 					[1] = "Follow[1] player",
 					[2] = {},
 					[3] = cmds.follow,
 				},
 				unfollow = {
-					[0] = 'unfollow',
+					[4] = 'unfollow',
 					[1] = "Stop following",
 					[2] = {},
 					[3] = cmds.unfollow,
 				},
 				message = {
-					[0] = 'message [message]',
+					[4] = 'message/msg [message]',
 					[1] = "Send message to chat",
 					[2] = {'msg'},
 					[3] = cmds.message,
 				},
 				follow2 = {
-					[0] = 'follow2 [user]',
+					[4] = 'follow2 [user]',
 					[1] = "Follow[2] player",
 					[2] = {},
 					[3] = cmds.follow2,
