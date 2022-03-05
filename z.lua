@@ -499,7 +499,7 @@ do
 				if _==__ then
 					local command = newCMD:Clone()
 					command.Name = funcs.randomstring()
-					command.Text = _..' | '..c[1]
+					command.Text = _[0]..': '..c[1]
 					command.Parent = CMDc
 					hwait()
 				end
@@ -1125,7 +1125,7 @@ do
 								lab.BackgroundColor3 = secondarycol
 								lab.TextColor3 = textcol
 								lab.Font = Enum.Font.Arcade
-								lab.Text = "   ".._
+								lab.Text = "   ".._[0]
 								x = x+1
 							end
 						end
@@ -1189,167 +1189,200 @@ do
 		coroutine.resume(coroutine.create(function()
 			cmdHandler = {
 				commands = {
-					[1] = "commands/cmds:  Show commands list",
+					[0] = 'commands/cmds',
+					[1] = "Show commands list",
 					[2] = {'cmds'},
 					[3] = cmds.commands,
 				},
 				rfly = {
-					[1] = "rfly:  Enable/disable fly  [glitchy]",
+					[0] = 'rfly',
+					[1] = "Enable/disable fly",
 					[2] = {},
 					[3] = cmds.rfly,
 				},
 				rflyspeed = {
-					[1] = "rflyspeed/rfs <value>:  Change fly speed",
+					[0] = 'rflyspeed/rfs <speed>',
+					[1] = "Change fly speed",
 					[2] = {'rfs'},
 					[3] = cmds.rflyspeed,
 				},
 				rejoin = {
-					[1] = "rejoin/rj:  Reconnect to the server",
+					[0] = 'rejoin/rj',
+					[1] = "Reconnect to the server",
 					[2] = {'rj'},
 					[3] = cmds.rejoin,
 				},
 				rfling = {
-					[1] = "rfling:  Enabled/disable fling  [only with fly]",
+					[0] = 'rfling',
+					[1] = "Enabled/disable fling  [only with fly]",
 					[2] = {},
 					[3] = cmds.rfling,
 				},
 				view = {
-					[1] = "view/spectate/spec [Player]:  Spectate the player",
+					[0] = 'view/spectate/spec [user]',
+					[1] = "Spectate the player",
 					[2] = {'spectate','spec'},
 					[3] = cmds.view,
 				},
 				unview = {
-					[1] = "unview/unspectate/unspec:  Stop spectate the player",
+					[0] = 'unview/unspectate/unspec',
+					[1] = "Stop spectate",
 					[2] = {'unspectate','unspec'},
 					[3] = cmds.unview,
 				},
 				sync = {
-					[1] = "sync [Player]:  Copy player character  [only 1 game]",
+					[0] = 'sync [user]',
+					[1] = "Copy player character",
 					[2] = {},
 					[3] = cmds.sync,
 				},
 				teleport = {
-					[1] = "teleport/to/tp [Player]:  Teleport to player",
+					[0] = 'teleport/to/tp [user]',
+					[1] = "Teleport to player",
 					[2] = {'to','tp'},
 					[3] = cmds.teleport,
 				},
 				prefix = {
-					[1] = "prefix/p [prefix]:  Set commands prefix",
+					[0] = 'prefix/p [prefix]',
+					[1] = "Set commands prefix",
 					[2] = {'p'},
 					[3] = cmds.prefix,
 				},
 				music = {
-					[1] = "music/mus <MusicId>:  FireRemote with music",
+					[0] = 'music/mus <Id>',
+					[1] = "Fires music remote",
 					[2] = {'mus'},
 					[3] = cmds.music,
 				},
 				earrape = {
-					[1] = "errape:  Do your ears bloody ;D",
+					[0] = 'errape',
+					[1] = "Do your ears bloody ;D",
 					[2] = {},
 					[3] = cmds.earrape,
 				},
 				bang = {
-					[1] = "bang [Player] <speed>:  Bang someone",
+					[0] = 'bang [user] <speed>',
+					[1] = "Bang someone",
 					[2] = {},
 					[3] = cmds.bang,
 				},
 				unbang = {
-					[1] = "unbang:  Stop banging",
+					[0] = 'unbang',
+					[1] = "Stop banging",
 					[2] = {},
 					[3] = cmds.unbang,
 				},
 				servercrash = {
-					[1] = "servercrash/sc:  Attempt to crash server",
+					[0] = 'servercrash/sc',
+					[1] = "Attempt to crash server",
 					[2] = {'sc'},
 					[3] = cmds.servercrash,
 				},
 				antikick = {
-					[1] = "antikick/akk [false/true]:  Disable/Enable Anti-Kick",
+					[0] = 'antikick/akk <false/true>',
+					[1] = "Disable/Enable Anti-Kick",
 					[2] = {'akk'},
 					[3] = cmds.antikick,
 				},
 				antirejoin = {
-					[1] = "antirejoin/arj [false/true]:  Disable/Enable Anti-Rejoin",
+					[0] = 'antirejoin/arj <false/true>',
+					[1] = "Disable/Enable Anti-Rejoin",
 					[2] = {'arj'},
 					[3] = cmds.antirejoin,
 				},
 				shiftlock = {
-					[1] = "shiftlock/sfl [false/true]:  Disable/Enable shiftlock",
+					[0] = 'shiftlock/sfl <false/true>',
+					[1] = "Disable/Enable shiftlock",
 					[2] = {'sfl'},
 					[3] = cmds.shiftlock,
 				},
 				cmdboxkey = {
-					[1] = "cmdboxkey [KEY]:  Set command box key",
+					[0] = 'cmdboxkey [KEY]',
+					[1] = "Set command box key",
 					[2] = {},
 					[3] = cmds.cmdboxkey,
 				},
 				flykey = {
-					[1] = "flykey [KEY]:  Set RFly key",
+					[0] = 'flykey [KEY]',
+					[1] = "Set RFly key",
 					[2] = {},
 					[3] = cmds.flykey,
 				},
 				mutesounds = {
-					[1] = "mutesounds/ms:  Disable all sounds in game",
+					[0] = 'mutesounds/ms',
+					[1] = "Disable all sounds in game",
 					[2] = {'ms'},
 					[3] = cmds.mutesounds,
 				},
 				unmutesounds = {
-					[1] = "unmutesounds/ums:  Enable all sounds in game",
+					[0] = 'unmutesounds/ums',
+					[1] = "Enable all sounds in game",
 					[2] = {'ums'},
 					[3] = cmds.unmutesounds,
 				},
 				antifling = {
-					[1] = "antifling/af [false/true]:  Disable/Enable Anti-Fling",
+					[0] = 'antifling/af <false/true>',
+					[1] = "Disable/Enable Anti-Fling",
 					[2] = {'af'},
 					[3] = cmds.antifling,
 				},
 				respawn = {
-					[1] = "respawn/rs:  Respawn character",
+					[0] = 'respawn/rs',
+					[1] = "Respawn character",
 					[2] = {'rs'},
 					[3] = cmds.respawn,
 				},
 				headsit = {
-					[1] = "headsit [Player]:  Sit on player head",
+					[0] = 'headsit [user]',
+					[1] = "Sit on player head",
 					[2] = {},
 					[3] = cmds.headsit,
 				},
 				whisper = {
-					[1] = "whisper/pm [Player] [Message]:  Send PM message to user",
+					[0] = 'whisper/pm [user] [message]',
+					[1] = "Send PM message to user",
 					[2] = {'pm'},
 					[3] = cmds.whisper,
 				},
 				nofog = {
-					[1] = "nofog:  Remove Lighting FOG",
+					[0] = 'nofog',
+					[1] = "Remove Lighting FOG",
 					[2] = {},
 					[3] = cmds.nofog,
 				},
 				clearnilinstances = {
-					[1] = "clearnilinstances/cni:  Clear all what in NIL",
+					[0] = 'clearnilinstances/cni',
+					[1] = "Clear all what in NIL",
 					[2] = {'cni'},
 					[3] = cmds.clearnilinstances,
 				},
 				remove1stperson = {
-					[1] = "remove1stperson/r1p:  Remove first person limits",
+					[0] = 'remove1stperson/r1p',
+					[1] = "Remove first person limits",
 					[2] = {'r1p'},
 					[3] = cmds.remove1stperson,
 				},
 				follow = {
-					[1] = "follow [Player]:  Follow player",
+					[0] = 'follow [user]',
+					[1] = "Follow[1] player",
 					[2] = {},
 					[3] = cmds.follow,
 				},
 				unfollow = {
-					[1] = "unfollow:  UnFollow player",
+					[0] = 'unfollow',
+					[1] = "Stop following",
 					[2] = {},
 					[3] = cmds.unfollow,
 				},
 				message = {
-					[1] = "message [Message]:  Send message to chat",
+					[0] = 'message [message]',
+					[1] = "Send message to chat",
 					[2] = {'msg'},
 					[3] = cmds.message,
 				},
 				follow2 = {
-					[1] = "ride [Player]:  Ride player",
+					[0] = 'follow2 [user]',
+					[1] = "Follow[2] player",
 					[2] = {},
 					[3] = cmds.follow2,
 				},
