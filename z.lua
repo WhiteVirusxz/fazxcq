@@ -28,7 +28,7 @@
 |
 |
 | Current static:
-|  • Version: v1.1.0b [BETA]
+|  • Version: v1.1.1b [BETA]
 |  • Lines: dunno
 |  • Commands: dunno
 |  • Functioncs: dunno
@@ -804,7 +804,7 @@ do
 		local speedbang = tonumber(args[2])
 		if funcs.minmax(speedbang,1,15,'def')=='acc'then
 			local p = funcs.findplayer(args[1])
-			if p~=nil and p~=lplr and not following and not riding then
+			if p~=nil and p~=lplr and not following then
 				if p.Character~=nil and getHum(p.Character) then
 					if banging then
 						banging = false
@@ -850,7 +850,7 @@ do
 	function cmds.follow(args)
 		if args[1]==nil then return funcs.errormsg(1) end
 		local p = funcs.findplayer(args[1])
-		if p~=nil and p~=lplr and not banging and not riding then
+		if p~=nil and p~=lplr and not banging then
 			if p.Character~=nil and getHum(p.Character) then
 				if following then
 					following = false
@@ -864,38 +864,38 @@ do
 						end
 					end
 				end)
-				funcs.createnotif('Following now '..p.Name,'succ',5,false)
+				funcs.createnotif('Following[1] now '..p.Name,'succ',5,false)
 			end
 		end
 	end
 
-	function cmds.unfollow(args)
-		following = false
-		funcs.createnotif('Not following now','succ',5,false)
-	end
-
-	function cmds.ride(args)
+	function cmds.follow2(args)
 		if args[1]==nil then return funcs.errormsg(1) end
 		local p = funcs.findplayer(args[1])
-		if p~=nil and p~=lplr and not banging and not following then
+		if p~=nil and p~=lplr and not banging then
 			if p.Character~=nil and getHum(p.Character) then
-				if riding then
-					riding = false
+				if following then
+					following = false
 				end
-				riding = true
+				following = true
 				task.spawn(function()
-					while riding do task.wait()
+					while following do task.wait()
 						if lplr.Character~=nil and p.Character~=nil then
 							getRoot(lplr.Character).CFrame=
 								getRoot(p.Character).CFrame*CFrame.new(0,1.1,0)
 						end
 					end
 				end)
-				funcs.createnotif('Riding now'..p.Name,'succ',5,false)
+				funcs.createnotif('Following[2] now'..p.Name,'succ',5,false)
 			end
 		end
 	end
-
+	
+	function cmds.unfollow(args)
+		following = false
+		funcs.createnotif('Not following now','succ',5,false)
+	end
+	
 	function cmds.unride(args)
 		riding = false
 		funcs.createnotif('Now not riding','succ',5,false)
@@ -1348,15 +1348,10 @@ do
 					[2] = {'msg'},
 					[3] = cmds.message,
 				},
-				ride = {
+				follow2 = {
 					[1] = "ride [Player]:  Ride player",
 					[2] = {},
-					[3] = cmds.ride,
-				},
-				unride = {
-					[1] = "unride:  UnRide player",
-					[2] = {},
-					[3] = cmds.unride,
+					[3] = cmds.follow2,
 				},
 			}
 			funcs.createnotif('Welcome to SPX Admin, '..lplr.Name..'!','warn',5,true);
