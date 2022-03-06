@@ -21,6 +21,8 @@
 |  • Some code stealed from =>  Infinity Yield   ^^   CMD-X
 |  • MINE MINE MINE MINE MINE MINE
 |  • S-sorry.. I added to this dex.. but you can choose versions.. :)  (UwU)
+|  • To open cmdbar use button: \
+|  • To use chat commands use prefix: c.
 ╹
 ╻
 | Updates logs:
