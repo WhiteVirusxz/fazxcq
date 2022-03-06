@@ -39,7 +39,6 @@
 
 
 --]==]
-
 _G.spxadmin = {
 	ccs = {
 		fly = {}
@@ -529,7 +528,19 @@ do
 	end
 
 	function cmds.rfly(args)
-		if not flying and lplr.Character~=nil and not following and not banging then
+		if flying then
+			if rfling then
+				rfling = false
+				funcs.createnotif('RFling is now off','succ',5,false)
+			end
+			wait()
+			flying = false
+			for _,c in next, _G.spxadmin.ccs.fly do
+				discon(c)
+			end
+			funcs.createnotif('RFly is now off','succ',5,false)return
+		end
+		if not flying and lplr.Character~=nil and getRoot(lplr.Character) and getHum(lplr.Character) and not following and not banging then
 			flying = true
 			local Keys,Timing = {W = false,A = false,S = false,D = false},{Throttle = 1,Sine = 0,LastFrame = tick()}
 			local Movement = {
@@ -579,7 +590,7 @@ do
 			_G.spxadmin.ccs.fly.MKeyUp = con(Mouse.KeyUp,mkeyup)
 			task.spawn(function()
 				while flying do task.wait()
-					if lplr.Character~=nil then
+					if lplr.Character~=nil and getRoot(lplr.Character) and getHum(lplr.Character) then
 						local su,er = pcall(function()
 							local hump = getRoot(lplr.Character)
 							getHum(lplr.Character).Sit = false
@@ -681,17 +692,6 @@ do
 				end
 			end)
 			funcs.createnotif('RFly is now on','succ',5,false)
-		elseif flying then
-			if rfling then
-				rfling = false
-				funcs.createnotif('RFling is now off','succ',5,false)
-			end
-			wait()
-			flying = false
-			for _,c in next, _G.spxadmin.ccs.fly do
-				discon(c)
-			end
-			funcs.createnotif('RFly is now off','succ',5,false)
 		end
 	end
 
@@ -755,7 +755,7 @@ do
 		if args[1]==nil then return funcs.errormsg(1) end
 		local p = funcs.findplayer(args[1])
 		if p~=nil then
-			if p.Character~=nil and getRoot(p.Character) and getRoot(lplr.Character) then
+			if lplr.Character~=nil and p.Character~=nil and getRoot(lplr.Character) and getRoot(p.Character) then
 				local hum = getRoot(lplr.Character)
 				local tarh = getRoot(p.Character)
 				if hum~=nil and tarh~=nil then
@@ -818,7 +818,7 @@ do
 					banging = true
 					task.spawn(function()
 						while banging do task.wait()
-							if lplr.Character~=nil and p.Character~=nil then
+							if lplr.Character~=nil and p.Character~=nil and getRoot(lplr.Character) and getRoot(p.Character) then
 								getRoot(lplr.Character).CFrame = getRoot(p.Character).CFrame + getRoot(p.Character).CFrame.lookVector * -1
 								getRoot(lplr.Character).AssemblyLinearVelocity = Vector3.new()
 							end
@@ -859,7 +859,7 @@ do
 				following = true
 				task.spawn(function()
 					while following do task.wait()
-						if lplr.Character~=nil then
+						if lplr.Character~=nil and p.Character~=nil and getRoot(lplr.Character) and getRoot(p.Character) then
 							getRoot(lplr.Character).CFrame=
 								getRoot(p.Character).CFrame
 						end
@@ -881,7 +881,7 @@ do
 				following = true
 				task.spawn(function()
 					while following do task.wait()
-						if lplr.Character~=nil and p.Character~=nil then
+						if lplr.Character~=nil and p.Character~=nil and getRoot(lplr.Character) and getRoot(p.Character) then
 							getRoot(lplr.Character).CFrame=
 								getRoot(p.Character).CFrame*CFrame.new(0,1.1,0)
 						end
@@ -895,11 +895,6 @@ do
 	function cmds.unfollow(args)
 		following = false
 		funcs.createnotif('Not following now','succ',5,false)
-	end
-	
-	function cmds.unride(args)
-		riding = false
-		funcs.createnotif('Now not riding','succ',5,false)
 	end
 
 	function cmds.servercrash(args)
