@@ -81,17 +81,15 @@ local pohvalno = {
 	["56789j7"] = 'CoolUser',
 }
 
-local descendants,firstchild,firstchildofc,con,discon,getpropersignal,hwait,twplay = function(In)return In:GetDescendants()end
-,function(In,In2)return In:FindFirstChild(In2)end
-,function(In,In2,In3)if In3 then return In:FindFirstChildOfClass(In2,In3) else return In:FindFirstChildOfClass(In2)end;end
+local descendants,con,discon,getpropersignal,hwait,twplay = function(In)return In:GetDescendants()end
 ,function(In,func)return In:connect(func)end
 ,function(In,In2)return In:Disconnect()end
 ,function(In,In2)return In:GetPropertyChangedSignal(In2)end
 ,function(c)return srv.RunService.Heartbeat:wait(c or 0)end
 ,function(UI,TIME,TABLE)local t=srv.TweenService:Create(UI,TweenInfo.new(TIME,Enum.EasingStyle.Sine),TABLE)t:play()return t;end
 
-local getRoot,getHum = function(char)local rootPart = firstchildofc(char,'Humanoid').RootPart or nil;return rootPart;end
-,function(char)local hum = firstchildofc(char,'Humanoid',true)or nil;return hum;end
+local getRoot,getHum = function(char)local rootPart = char:FindFirstChild('HumanoidRootPart') or char:FindFirstChild('Torso') or char:FindFirstChild('UpperTorso') or false;return rootPart;end
+,function(char)local hum = char:FindFirstChildOfClass('Humanoid',true) or false;return hum;end
 
 function funcs.randomstring(Length)
 	local Text = ""
@@ -838,7 +836,7 @@ do
 				bang:Stop()
 				bangAnim:Destroy()
 				local hum = getHum(lplr.Character)
-				local anim = firstchildofc(hum,'Animator')
+				local anim = hum:FindFirstChildOfClass('Animator')
 				if hum and anim then
 					hum:LoadAnimation(anim)
 					anim:Play()
