@@ -889,7 +889,7 @@ do
 			end
 		end
 	end
-	
+
 	function cmds.unfollow(args)
 		following = false
 		funcs.createnotif('Not following now','succ',5,false)
@@ -926,11 +926,8 @@ do
 		if args[1]==nil then return funcs.errormsg(1) end
 		local key = string.lower(args[1])
 		if funcs.minmax(key,1,1,'len')=='acc'then
-			warn('y')
 			cmdboxkey = key
-			warn('e')
 			funcs.createnotif('Command box key setted to '..key,'succ',5,false)
-			warn('s')
 		end
 	end
 
