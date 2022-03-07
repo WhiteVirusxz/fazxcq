@@ -175,8 +175,9 @@ do
 		spawn(function()
 			repeat wait()until not alrnotifying
 			alrnotifying = true
-			local txt,icon;
+			local txt,icon,NEWGUI;
 			local function createNotify()
+				NEWGUI = Instance.new('ScreenGui')
 				local shadow = Instance.new("Frame")
 				local out = Instance.new("Frame")
 				local i_2 = Instance.new("UICorner")
@@ -184,8 +185,16 @@ do
 				local DO_TXT = Instance.new("TextLabel")
 				local LINE = Instance.new("Frame")
 				local IMG = Instance.new("ImageLabel")
+				if not is_sirhurt_closure and syn.protect_gui then syn.protect_gui(NEWGUI) end
+				
+				set_properties(NEWGUI,{
+					Parent = srv.CoreGui,
+					Name = funcs.randomstring(),
+					Enabled = true,
+					ResetOnSpawn = false
+				})
 				set_properties(shadow,{
-					Parent = GUI,
+					Parent = NEWGUI,
 					BackgroundColor3 = Color3.fromRGB(33,33,33),
 					BorderSizePixel = 0,
 					Position = UDim2.new(1,0,1,0),
@@ -288,7 +297,7 @@ do
 					txt.TextColor3 = Color3.new(1,1,1)
 				else return end
 			else return end
-			nf.Parent = GUI
+			nf.Parent = NEWGUI
 			if IFSOUND then funcs.soundnotify()end
 			task.spawn(function()
 				task.spawn(function()local tww = twplay(nf,.4,{Position = UDim2.new(1,-185,1,-110)})tww.Completed:wait()alrnotifying = false;end)
