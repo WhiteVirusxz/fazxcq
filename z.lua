@@ -316,7 +316,7 @@ do
 						end
 					end
 					task.wait(.05)
-					nf:Destroy()
+					NEWGUI:Destroy()
 					for _,t in next,notifys do if(t==nf)then t=nil;end;end
 				end)
 			end)
