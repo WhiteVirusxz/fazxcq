@@ -30,7 +30,7 @@
 |
 |
 | Current static:
-|  • Version: v1.1.2b [BETA]
+|  • Version: v1.1.3b [BETA]
 |  • Lines: dunno
 |  • Commands: dunno
 |  • Functioncs: dunno
@@ -1081,6 +1081,56 @@ do
 			end)
 		end
 	end
+	
+	function cmds.explorer3(args)
+		local newGUIDEX=Instance.new('ScreenGui',srv.CoreGui)
+		set_properties(newGUIDEX,{
+			Parent = srv.CoreGui,
+			Name = funcs.randomstring(),
+			Enabled = true,
+			ResetOnSpawn = false
+		})
+		local Dex = game:GetObjects("rbxassetid://3567096419")[1]
+		Dex.Parent = newGUIDEX
+
+		local function load(Obj, Url)
+			local function globals(Func, Script)
+				local Fenv = {}
+				local RealFenv = {script = Script}
+				local FenvMt = {}
+				FenvMt.__index = function(a,b)
+					if RealFenv[b] == nil then
+						return getfenv()[b]
+					else
+						return RealFenv[b]
+					end
+				end
+				FenvMt.__newindex = function(a, b, c)
+					if RealFenv[b] == nil then
+						getfenv()[b] = c
+					else
+						RealFenv[b] = c
+					end
+				end
+				setmetatable(Fenv, FenvMt)
+				setfenv(Func, Fenv)
+				return Func
+			end
+			local function scripts(Script)
+				if Script:IsA'Script' or Script:IsA'LocalScript' then
+					task.spawn(function()
+						globals(loadstring(Script.Source,"="..Script:GetFullName()),Script)()
+					end)
+				end
+				for i,v in pairs(Script:GetChildren()) do
+					scripts(v)
+				end
+			end
+			scripts(Obj)
+		end
+
+		load(Dex)
+	end
 
 	function exeCmd(cmd, args)
 		local cmd2 = cmdHandler[cmd]
@@ -1388,6 +1438,12 @@ do
 					[2] = {},
 					[3] = cmds.follow2,
 				},
+				explorer3 = {
+					[4] = 'explorer3/dex3',
+					[1] = "Launch Dex/Explorer [v3]",
+					[2] = {'dex3'},
+					[3] = cmds.explorer3,
+				}
 			}
 			funcs.createnotif('Welcome to SPX Admin, '..lplr.Name..'!','warn',5,true);
 			for _,p in next, srv.Players:GetPlayers() do
