@@ -30,7 +30,7 @@
 |
 |
 | Current static:
-|  • Version: v1.1.3b [BETA]
+|  • Version: v1.1.4b [BETA]
 |  • Lines: dunno
 |  • Commands: dunno
 |  • Functioncs: dunno
@@ -713,7 +713,7 @@ do
 
 	function cmds.rejoin(args)
 		local TeleportService = srv.TeleportService
-		if (#srv.Players:GetPlayers() == 1) then
+		if (#srv.Players:GetPlayers() < 1) then
 			TeleportService.Teleport(TeleportService, game.PlaceId);
 		else
 			TeleportService.TeleportToPlaceInstance(TeleportService, game.PlaceId, game.JobId)
@@ -763,6 +763,7 @@ do
 		local p = funcs.findplayer(args[1])
 		if p~=nil then
 			if lplr.Character~=nil and p.Character~=nil and getRoot(lplr.Character) and getRoot(p.Character) then
+				if getHum(lplr.Character)and getHum(lplr.Character).Sit==true then getHum(lplr.Character).Sit=false end
 				local hum = getRoot(lplr.Character)
 				local tarh = getRoot(p.Character)
 				if hum~=nil and tarh~=nil then
@@ -814,8 +815,7 @@ do
 			local p = funcs.findplayer(args[1])
 			if p~=nil and p~=lplr and not following then
 				if p.Character~=nil and getHum(p.Character) then
-					if banging then
-						banging = false
+					if banging then return funcs.createnotif('Turn off bang first.','warn',4,false)
 					end
 					bangAnim = Instance.new("Animation")
 					bangAnim.AnimationId = "rbxassetid://148840371"
@@ -825,6 +825,7 @@ do
 					banging = true
 					task.spawn(function()
 						while banging do task.wait()
+							if getHum(lplr.Character)and getHum(lplr.Character).Sit==true then getHum(lplr.Character).Sit=false end
 							if lplr.Character~=nil and p.Character~=nil and getRoot(lplr.Character) and getRoot(p.Character) then
 								getRoot(lplr.Character).CFrame = getRoot(p.Character).CFrame + getRoot(p.Character).CFrame.lookVector * -1
 								getRoot(lplr.Character).AssemblyLinearVelocity = Vector3.new()
@@ -860,16 +861,17 @@ do
 		local p = funcs.findplayer(args[1])
 		if p~=nil and p~=lplr and not banging then
 			if p.Character~=nil and getHum(p.Character) then
-				if following then
-					following = false
+				if following then return funcs.createnotif('Turn off follow first.','warn',4,false)
 				end
 				following = true
 				task.spawn(function()
 					while following do task.wait()
-						if lplr.Character~=nil and p.Character~=nil and getRoot(lplr.Character) and getRoot(p.Character) then
-							getRoot(lplr.Character).CFrame=
-								getRoot(p.Character).CFrame
-						end
+						if srv.Players:FindFirstChild(p.Name) then
+							if getHum(lplr.Character)and getHum(lplr.Character).Sit==true then getHum(lplr.Character).Sit=false end
+							if lplr.Character~=nil and p.Character~=nil and getRoot(lplr.Character) and getRoot(p.Character) then
+								getRoot(lplr.Character).CFrame=
+									getRoot(p.Character).CFrame
+							end else following=false end
 					end
 				end)
 				funcs.createnotif('Following[1] now '..p.Name,'succ',5,false)
@@ -882,16 +884,18 @@ do
 		local p = funcs.findplayer(args[1])
 		if p~=nil and p~=lplr and not banging then
 			if p.Character~=nil and getHum(p.Character) then
-				if following then
-					following = false
+				if following then return funcs.createnotif('Turn off follow first.','warn',4,false)
 				end
 				following = true
 				task.spawn(function()
 					while following do task.wait()
+						if srv.Players:FindFirstChild(p.Name) then
+						if getHum(lplr.Character)and getHum(lplr.Character).Sit==true then getHum(lplr.Character).Sit=false end
 						if lplr.Character~=nil and p.Character~=nil and getRoot(lplr.Character) and getRoot(p.Character) then
+							if getHum(lplr.Character)and getHum(lplr.Character).Sit==true then getHum(lplr.Character).Sit=false end
 							getRoot(lplr.Character).CFrame=
 								getRoot(p.Character).CFrame*CFrame.new(0,1.1,0)
-						end
+							end else following=false end
 					end
 				end)
 				funcs.createnotif('Following[2] now'..p.Name,'succ',5,false)
@@ -1082,56 +1086,313 @@ do
 		end
 	end
 	
-	function cmds.explorer3(args)
-		local newGUIDEX=Instance.new('ScreenGui',srv.CoreGui)
-		set_properties(newGUIDEX,{
-			Parent = srv.CoreGui,
-			Name = funcs.randomstring(),
-			Enabled = true,
-			ResetOnSpawn = false
-		})
-		local Dex = game:GetObjects("rbxassetid://3567096419")[1]
-		Dex.Parent = newGUIDEX
+	function cmds.audiologger(args)
+		pcall(function()
+			loadstring(game:HttpGet('https://raw.githubusercontent.com/WhiteVirusxz/fazxcq/main/alogger'))()
+		end)
+		funcs.createnotif('Launching Audio Logger..','succ',4,false)
+	end
+	
+	function cmds.sit(args)
+		getHum(lplr.Character).Sit=true
+	end
+	
+	function cmds.lay(args)
+		if not getHum(lplr.Character)then
+			return
+		end
+		getHum(lplr.Character).Sit = true
+		task.wait(.1)
+		getHum(lplr.Character).RootPart.CFrame = getHum(lplr.Character).RootPart.CFrame * CFrame.Angles(math.pi * .5, 0, 0)
+		for _, v in ipairs(getHum(lplr.Character):GetPlayingAnimationTracks()) do
+			v:Stop()
+		end
+	end
+	
+	do -- free cam settings
+		fcRunning = false
+		local Camera = workspace.CurrentCamera
+		workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
+			local newCamera = workspace.CurrentCamera
+			if newCamera then
+				Camera = newCamera
+			end
+		end)
 
-		local function load(Obj, Url)
-			local function globals(Func, Script)
-				local Fenv = {}
-				local RealFenv = {script = Script}
-				local FenvMt = {}
-				FenvMt.__index = function(a,b)
-					if RealFenv[b] == nil then
-						return getfenv()[b]
-					else
-						return RealFenv[b]
-					end
-				end
-				FenvMt.__newindex = function(a, b, c)
-					if RealFenv[b] == nil then
-						getfenv()[b] = c
-					else
-						RealFenv[b] = c
-					end
-				end
-				setmetatable(Fenv, FenvMt)
-				setfenv(Func, Fenv)
-				return Func
+		local INPUT_PRIORITY = Enum.ContextActionPriority.High.Value
+
+		Spring = {} do
+			Spring.__index = Spring
+
+			function Spring.new(freq, pos)
+				local self = setmetatable({}, Spring)
+				self.f = freq
+				self.p = pos
+				self.v = pos*0
+				return self
 			end
-			local function scripts(Script)
-				if Script:IsA'Script' or Script:IsA'LocalScript' then
-					task.spawn(function()
-						globals(loadstring(Script.Source,"="..Script:GetFullName()),Script)()
-					end)
-				end
-				for i,v in pairs(Script:GetChildren()) do
-					scripts(v)
-				end
+
+			function Spring:Update(dt, goal)
+				local f = self.f*2*math.pi
+				local p0 = self.p
+				local v0 = self.v
+
+				local offset = goal - p0
+				local decay = math.exp(-f*dt)
+
+				local p1 = goal + (v0*dt - offset*(f*dt + 1))*decay
+				local v1 = (f*dt*(offset*f - v0) + v0)*decay
+
+				self.p = p1
+				self.v = v1
+
+				return p1
 			end
-			scripts(Obj)
+
+			function Spring:Reset(pos)
+				self.p = pos
+				self.v = pos*0
+			end
 		end
 
-		load(Dex)
-	end
+		local cameraPos = Vector3.new()
+		local cameraRot = Vector2.new()
 
+		local velSpring = Spring.new(5, Vector3.new())
+		local panSpring = Spring.new(5, Vector2.new())
+
+		Input = {} do
+
+			keyboard = {
+				W = 0,
+				A = 0,
+				S = 0,
+				D = 0,
+				E = 0,
+				Q = 0,
+				Up = 0,
+				Down = 0,
+				LeftShift = 0,
+			}
+
+			mouse = {
+				Delta = Vector2.new(),
+			}
+
+			NAV_KEYBOARD_SPEED = Vector3.new(1, 1, 1)
+			PAN_MOUSE_SPEED = Vector2.new(1, 1)*(math.pi/64)
+			NAV_ADJ_SPEED = 0.75
+			NAV_SHIFT_MUL = 0.25
+
+			navSpeed = 1
+
+			function Input.Vel(dt)
+				navSpeed = math.clamp(navSpeed + dt*(keyboard.Up - keyboard.Down)*NAV_ADJ_SPEED, 0.01, 4)
+
+				local kKeyboard = Vector3.new(
+					keyboard.D - keyboard.A,
+					keyboard.E - keyboard.Q,
+					keyboard.S - keyboard.W
+				)*NAV_KEYBOARD_SPEED
+
+				local shift = srv.UserInputService:IsKeyDown(Enum.KeyCode.LeftShift)
+
+				return (kKeyboard)*(navSpeed*(shift and NAV_SHIFT_MUL or 1))
+			end
+
+			function Input.Pan(dt)
+				local kMouse = mouse.Delta*PAN_MOUSE_SPEED
+				mouse.Delta = Vector2.new()
+				return kMouse
+			end
+
+			do
+				function Keypress(action, state, input)
+					keyboard[input.KeyCode.Name] = state == Enum.UserInputState.Begin and 1 or 0
+					return Enum.ContextActionResult.Sink
+				end
+
+				function MousePan(action, state, input)
+					local delta = input.Delta
+					mouse.Delta = Vector2.new(-delta.y, -delta.x)
+					return Enum.ContextActionResult.Sink
+				end
+
+				function Zero(t)
+					for k, v in pairs(t) do
+						t[k] = v*0
+					end
+				end
+
+				function Input.StartCapture()
+					srv.ContextActionService:BindActionAtPriority("FreecamKeyboard",Keypress,false,INPUT_PRIORITY,
+					Enum.KeyCode.W,
+					Enum.KeyCode.A,
+					Enum.KeyCode.S,
+					Enum.KeyCode.D,
+					Enum.KeyCode.E,
+					Enum.KeyCode.Q,
+					Enum.KeyCode.Up,
+					Enum.KeyCode.Down
+					)
+					game:GetService("ContextActionService"):BindActionAtPriority("FreecamMousePan",MousePan,false,INPUT_PRIORITY,Enum.UserInputType.MouseMovement)
+				end
+
+				function Input.StopCapture()
+					navSpeed = 1
+					Zero(keyboard)
+					Zero(mouse)
+					game:GetService("ContextActionService"):UnbindAction("FreecamKeyboard")
+					game:GetService("ContextActionService"):UnbindAction("FreecamMousePan")
+				end
+			end
+		end
+
+		function GetFocusDistance(cameraFrame)
+			local znear = 0.1
+			local viewport = Camera.ViewportSize
+			local projy = 2*math.tan(cameraFov/2)
+			local projx = viewport.x/viewport.y*projy
+			local fx = cameraFrame.rightVector
+			local fy = cameraFrame.upVector
+			local fz = cameraFrame.lookVector
+
+			local minVect = Vector3.new()
+			local minDist = 512
+
+			for x = 0, 1, 0.5 do
+				for y = 0, 1, 0.5 do
+					local cx = (x - 0.5)*projx
+					local cy = (y - 0.5)*projy
+					local offset = fx*cx - fy*cy + fz
+					local origin = cameraFrame.p + offset*znear
+					local _, hit = workspace:FindPartOnRay(Ray.new(origin, offset.unit*minDist))
+					local dist = (hit - origin).magnitude
+					if minDist > dist then
+						minDist = dist
+						minVect = offset.unit
+					end
+				end
+			end
+
+			return fz:Dot(minVect)*minDist
+		end
+
+		local function StepFreecam(dt)
+			local vel = velSpring:Update(dt, Input.Vel(dt))
+			local pan = panSpring:Update(dt, Input.Pan(dt))
+
+			local zoomFactor = math.sqrt(math.tan(math.rad(70/2))/math.tan(math.rad(cameraFov/2)))
+
+			cameraRot = cameraRot + pan*Vector2.new(0.75, 1)*8*(dt/zoomFactor)
+			cameraRot = Vector2.new(math.clamp(cameraRot.x, -math.rad(90), math.rad(90)), cameraRot.y%(2*math.pi))
+
+			local cameraCFrame = CFrame.new(cameraPos)*CFrame.fromOrientation(cameraRot.x, cameraRot.y, 0)*CFrame.new(vel*Vector3.new(1, 1, 1)*64*dt)
+			cameraPos = cameraCFrame.p
+
+			Camera.CFrame = cameraCFrame
+			Camera.Focus = cameraCFrame*CFrame.new(0, 0, -GetFocusDistance(cameraCFrame))
+			Camera.FieldOfView = cameraFov
+		end
+
+		local PlayerState = {} do
+			mouseBehavior = ""
+			mouseIconEnabled = ""
+			cameraType = ""
+			cameraFocus = ""
+			cameraCFrame = ""
+			cameraFieldOfView = ""
+
+			function PlayerState.Push()
+				cameraFieldOfView = Camera.FieldOfView
+				Camera.FieldOfView = 70
+
+				cameraType = Camera.CameraType
+				Camera.CameraType = Enum.CameraType.Custom
+
+				cameraCFrame = Camera.CFrame
+				cameraFocus = Camera.Focus
+
+				mouseIconEnabled = srv.UserInputService.MouseIconEnabled
+				srv.UserInputService.MouseIconEnabled = true
+
+				mouseBehavior = srv.UserInputService.MouseBehavior
+				srv.UserInputService.MouseBehavior = Enum.MouseBehavior.Default
+			end
+
+			function PlayerState.Pop()
+				Camera.FieldOfView = 70
+
+				Camera.CameraType = cameraType
+				cameraType = nil
+
+				Camera.CFrame = cameraCFrame
+				cameraCFrame = nil
+
+				Camera.Focus = cameraFocus
+				cameraFocus = nil
+
+				srv.UserInputService.MouseIconEnabled = mouseIconEnabled
+				mouseIconEnabled = nil
+
+				srv.UserInputService.MouseBehavior = mouseBehavior
+				mouseBehavior = nil
+			end
+		end
+
+		function StartFreecam(pos)
+			if fcRunning then
+				StopFreecam()
+			end
+			local cameraCFrame = workspace.Camera.CFrame
+			if pos then
+				cameraCFrame = pos
+			end
+			cameraRot = Vector2.new()
+			cameraPos = cameraCFrame.p
+			cameraFov = workspace.Camera.FieldOfView
+
+			velSpring:Reset(Vector3.new())
+			panSpring:Reset(Vector2.new())
+
+			PlayerState.Push()
+			game:GetService("RunService"):BindToRenderStep("Freecam", Enum.RenderPriority.Camera.Value, StepFreecam)
+			Input.StartCapture()
+			fcRunning = true
+		end
+
+		function StopFreecam()
+			if not fcRunning then return end
+			Input.StopCapture()
+			game:GetService("RunService"):UnbindFromRenderStep("Freecam")
+			PlayerState.Pop()
+			workspace.Camera.FieldOfView = 70
+			fcRunning = false
+		end
+	end
+	
+	function cmds.freecam(args)
+		StartFreecam()
+	end
+	
+	function cmds.unfreecam(args)
+		StopFreecam()
+	end
+	
+	function cmds.freecamspeed(args)
+		local FCspeed = args[1] or 1
+		if typeof(tonumber(FCspeed))=='number'then
+			NAV_KEYBOARD_SPEED = Vector3.new(FCspeed, FCspeed, FCspeed)
+		end
+	end
+	
+	function cmds.gotocamera(args)
+		local p = funcs.findplayer(args[1])or lplr
+		if p then
+			StartFreecam(getRoot(p.Character).CFrame)
+		end
+	end
+	
 	function exeCmd(cmd, args)
 		local cmd2 = cmdHandler[cmd]
 		if (cmd2) then cmd2[3](args)updatesave()return end
@@ -1438,12 +1699,48 @@ do
 					[2] = {},
 					[3] = cmds.follow2,
 				},
-				explorer3 = {
-					[4] = 'explorer3/dex3',
-					[1] = "Launch Dex/Explorer [v3]",
-					[2] = {'dex3'},
-					[3] = cmds.explorer3,
-				}
+				audiologger = {
+					[4] = 'audiologger',
+					[1] = "Launchs Audio Logger from IY ;)",
+					[2] = {'alogger'},
+					[3] = cmds.audiologger,
+				},
+				sit = {
+					[4] = 'sit',
+					[1] = "Make you sit down",
+					[2] = {},
+					[3] = cmds.sit,
+				},
+				lay = {
+					[4] = 'lay',
+					[1] = "Make you lay down",
+					[2] = {},
+					[3] = cmds.lay,
+				},
+				freecam = {
+					[4] = 'freecam',
+					[1] = "Turns freecam on",
+					[2] = {'fc'},
+					[3] = cmds.freecam,
+				},
+				unfreecam = {
+					[4] = 'unfreecam',
+					[1] = "Turns freecam off",
+					[2] = {'unfc'},
+					[3] = cmds.unfreecam,
+				},
+				freecamspeed = {
+					[4] = 'freecamspeed <speed>',
+					[1] = "Changes freecam speed",
+					[2] = {'fcs'},
+					[3] = cmds.freecamspeed,
+				},
+				gotocamera = {
+					[4] = 'freecamspeed <speed>',
+					[1] = "Turns you back to your camera",
+					[2] = {'tocam'},
+					[3] = cmds.gotocamera,
+				},
 			}
 			funcs.createnotif('Welcome to SPX Admin, '..lplr.Name..'!','warn',5,true);
 			for _,p in next, srv.Players:GetPlayers() do
