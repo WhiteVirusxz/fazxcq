@@ -1737,7 +1737,7 @@ do
 					[3] = cmds.freecamspeed,
 				},
 				gotocamera = {
-					[4] = 'freecamspeed <speed>',
+					[4] = 'gotocamera [user]',
 					[1] = "Turns you back to your camera",
 					[2] = {'tocam'},
 					[3] = cmds.gotocamera,
