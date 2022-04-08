@@ -398,11 +398,13 @@ do
 		if target == 'me' then
 			return lplr
 		end
-		for _,p in next, srv.Players:children() do
-			local pn = string.lower(p.Name)
-			local pd = string.lower(p.DisplayName)
-			if (string.sub(target,1,#target)==string.sub(pn,1,#target) or string.sub(target,1,#target)==string.sub(pd,1,#target)) then
-				return p
+		for _,p in next, srv.Players:children()do
+			if p:IsA'Player'then
+				local pn = string.lower(p.Name)
+				local pd = string.lower(p.DisplayName)
+				if (string.sub(target,1,#target)==string.sub(pn,1,#target) or string.sub(target,1,#target)==string.sub(pd,1,#target)) then
+					return p
+				end
 			end
 		end
 		funcs.createnotif(target..' is not a player.','error',5,false)
