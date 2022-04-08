@@ -826,6 +826,7 @@ do
 					task.spawn(function()
 						while banging do task.wait()
 							if getHum(lplr.Character)and getHum(lplr.Character).Sit==true then getHum(lplr.Character).Sit=false end
+							if lplr.Character==nil or not getHum(lplr.Character)or not getRoot(lplr.Character)then banging=false end
 							if lplr.Character~=nil and p.Character~=nil and getRoot(lplr.Character) and getRoot(p.Character) then
 								getRoot(lplr.Character).CFrame = getRoot(p.Character).CFrame + getRoot(p.Character).CFrame.lookVector * -1
 								getRoot(lplr.Character).AssemblyLinearVelocity = Vector3.new()
