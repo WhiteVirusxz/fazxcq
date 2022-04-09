@@ -1765,7 +1765,7 @@ do
 				explorer = {
 					[4] = 'explorer3/dex3',
 					[1] = "Gives you Dex v3",
-					[2] = {'dex'},
+					[2] = {'dex3'},
 					[3] = cmds.explorer,
 				},
 				audiologger = {
