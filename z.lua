@@ -189,7 +189,7 @@ do
 				
 				set_properties(NEWGUI,{
 					Parent = srv.CoreGui,
-					Name = funcs.randomstring(),
+					IgnoreGuiInset = true,
 					Enabled = true,
 					ResetOnSpawn = false
 				})
@@ -1374,6 +1374,59 @@ do
 		end
 	end
 	
+	function cmds.explorer(args)
+		pcall(function()
+			local newPAR = Instance.new("ScreenGui")
+			set_properties(newPAR,{
+				Parent = srv.CoreGui,
+				IgnoreGuiInset = true,
+				Enabled = true,
+				ResetOnSpawn = false
+			})
+			local Dex = game:GetObjects("rbxassetid://3567096419")[1]
+			Dex.Parent = newPAR
+
+			local function Load(Obj, Url)
+				local function GiveOwnGlobals(Func, Script)
+					local Fenv = {}
+					local RealFenv = {script = Script}
+					local FenvMt = {}
+					FenvMt.__index = function(a,b)
+						if RealFenv[b] == nil then
+							return getfenv()[b]
+						else
+							return RealFenv[b]
+						end
+					end
+					FenvMt.__newindex = function(a, b, c)
+						if RealFenv[b] == nil then
+							getfenv()[b] = c
+						else
+							RealFenv[b] = c
+						end
+					end
+					setmetatable(Fenv, FenvMt)
+					setfenv(Func, Fenv)
+					return Func
+				end
+				local function LoadScripts(Script)
+					if Script.ClassName == "Script" or Script.ClassName == "LocalScript" then
+						task.spawn(function()
+							GiveOwnGlobals(loadstring(Script.Source, "=" .. Script:GetFullName()), Script)()
+						end)
+					end
+					for i,v in pairs(Script:GetChildren()) do
+						LoadScripts(v)
+					end
+				end
+				LoadScripts(Obj)
+			end
+
+			Load(Dex)
+		end)
+		funcs.createnotif('Loading Dex v3..','succ',5,false)
+	end
+	
 	function cmds.freecam(args)
 		StartFreecam()
 	end
@@ -1708,6 +1761,12 @@ do
 					[1] = "Follow[2] player",
 					[2] = {},
 					[3] = cmds.follow2,
+				},
+				explorer = {
+					[4] = 'explorer3/dex3',
+					[1] = "Gives you Dex v3",
+					[2] = {'dex'},
+					[3] = cmds.explorer,
 				},
 				audiologger = {
 					[4] = 'audiologger/alogger',
