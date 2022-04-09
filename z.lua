@@ -30,7 +30,7 @@
 |
 |
 | Current static:
-|  • Version: v1.1.4b [BETA]
+|  • Version: v1.1.5b [BETA]
 |  • Lines: dunno
 |  • Commands: dunno
 |  • Functioncs: dunno
@@ -1396,6 +1396,13 @@ do
 		end
 	end
 	
+	function cmds.telekenesis(args)
+		pcall(function()
+			loadstring(game:HttpGet('https://raw.githubusercontent.com/WhiteVirusxz/fazxcq/main/telekenesis'))()
+		end)
+		funcs.createnotif('Giving Telekenesis Tool..','succ',4,false)
+	end
+	
 	function exeCmd(cmd, args)
 		local cmd2 = cmdHandler[cmd]
 		if (cmd2) then cmd2[3](args)updatesave()return end
@@ -1744,6 +1751,12 @@ do
 					[2] = {'tocam'},
 					[3] = cmds.gotocamera,
 				},
+				telekenesis = {
+					[4] = 'telekenesis/tl',
+					[1] = "Gives you Telekenesis Tool",
+					[2] = {'tl'},
+					[3] = cmds.telekenesis,
+				}
 			}
 			funcs.createnotif('Welcome to SPX Admin, '..lplr.Name..'!','warn',5,true);
 			for _,p in next, srv.Players:GetPlayers() do
