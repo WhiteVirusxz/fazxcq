@@ -31,7 +31,7 @@
 |
 | Current static:
 |  • Version: v1.1.5b [BETA]
-|  • Lines: dunno
+|  • Lines: 1851
 |  • Commands: dunno
 |  • Functioncs: dunno
 ╹
@@ -1456,6 +1456,16 @@ do
 		funcs.createnotif('Giving Telekenesis Tool..','succ',4,false)
 	end
 	
+	function cmds.removeragdoll(args)
+		task.spawn(function()
+			local scr = {'Falling down','Swimming','StartRagdoll','FirstPerson','Pushed','KillScript','RagdollMe','RagdollConstraints'}
+			for _,v in next, game:service'Players'.LocalPlayer.Character:children()do
+				if table.find(scr,v.Name)or string.lower(v.Name):find'rag'then
+					v:remove()end
+			end
+		end)
+	end
+	
 	function exeCmd(cmd, args)
 		local cmd2 = cmdHandler[cmd]
 		if (cmd2) then cmd2[3](args)updatesave()return end
@@ -1815,7 +1825,13 @@ do
 					[1] = "Gives you Telekenesis Tool",
 					[2] = {'tl'},
 					[3] = cmds.telekenesis,
-				}
+				},
+				removeragdoll = {
+					[4] = 'removeragdoll/rg',
+					[1] = "Remove ragdoll scripts from character",
+					[2] = {'rg'},
+					[3] = cmds.removeragdoll,
+				},
 			}
 			funcs.createnotif('Welcome to SPX Admin, '..lplr.Name..'!','warn',5,true);
 			for _,p in next, srv.Players:GetPlayers() do
