@@ -31,7 +31,7 @@
 |
 | Current static:
 |  • Version: v1.1.5b [BETA]
-|  • Lines: 1851
+|  • Lines: dunno
 |  • Commands: dunno
 |  • Functioncs: dunno
 ╹
@@ -1466,6 +1466,22 @@ do
 		end)
 	end
 	
+	function cmds.fpsboost(args)
+		task.spawn(function()
+			for _,v in next,workspace:GetDescendants()do
+				if v:IsA'BasePart'then v.Material='Plastic'end
+			end
+			game:service("Lighting").GlobalShadows = false
+			game:service("Lighting").FogEnd = 9e9
+			game:service("Lighting").TimeOfDay = 14
+			for i,v in pairs(game:service("Lighting"):GetDescendants()) do
+				if v:IsA("BlurEffect") or v:IsA("SunRaysEffect") or v:IsA("ColorCorrectionEffect") or v:IsA("BloomEffect") or v:IsA("DepthOfFieldEffect") then
+					v.Enabled = false
+				end
+			end
+		end)
+	end
+	
 	function exeCmd(cmd, args)
 		local cmd2 = cmdHandler[cmd]
 		if (cmd2) then cmd2[3](args)updatesave()return end
@@ -1832,6 +1848,12 @@ do
 					[2] = {'rg'},
 					[3] = cmds.removeragdoll,
 				},
+				fpsboost = {
+					[4] = 'fpsboost',
+					[1] = "Trying to boost fps",
+					[2] = {},
+					[3] = cmds.fpsboost,
+				}
 			}
 			funcs.createnotif('Welcome to SPX Admin, '..lplr.Name..'!','warn',5,true);
 			for _,p in next, srv.Players:GetPlayers() do
