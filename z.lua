@@ -1482,7 +1482,7 @@ do
 		end)
 	end
 	
-	function cmds.removesoundstool(args)
+	function cmds.removetoolsounds(args)
 		local function getParents(a)
 			local b=a
 			repeat
@@ -1869,11 +1869,11 @@ do
 					[2] = {},
 					[3] = cmds.fpsboost,
 				},
-				removesoundstool = {
-					[4] = 'removesoundstool',
+				removetoolsounds = {
+					[4] = 'removetoolsounds/rts',
 					[1] = "Remove sounds from Tools in game",
-					[2] = {'rst'},
-					[3] = cmds.removesoundstool,
+					[2] = {'rts'},
+					[3] = cmds.removetoolsounds,
 				}
 			}
 			funcs.createnotif('Welcome to SPX Admin, '..lplr.Name..'!','warn',5,true);
