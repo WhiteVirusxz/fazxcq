@@ -1483,18 +1483,13 @@ do
 	end
 	
 	function cmds.removetoolsounds(args)
-		local function getParents(a)
-			local b=a
-			repeat
-				b=b.Parent;task.wait()
-			until b==game or b:IsA'Tool'
-			return b;
-		end
-		for _,v in next, game:GetDescendants()do
-			if v:IsA'Sound'and getParents(v):IsA'Tool'then
-				v:remove()
+		task.spawn(function()
+			for _,v in next, game:GetDescendants()do
+				if v:IsA'Sound'and v.Parent:IsA'Tool'and v.Parent.Parent:IsA'Tool'then
+					v:remove()
+				end
 			end
-		end
+		end)
 	end
 	
 	function exeCmd(cmd, args)
