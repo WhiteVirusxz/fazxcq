@@ -1482,6 +1482,21 @@ do
 		end)
 	end
 	
+	function cmds.removesoundstool(args)
+		local function getParents(a)
+			local b=a
+			repeat
+				b=b.Parent;task.wait()
+			until b==game or b:IsA'Tool'
+			return b;
+		end
+		for _,v in next, game:GetDescendants()do
+			if v:IsA'Sound'and getParents(v):IsA'Tool'then
+				v:remove()
+			end
+		end
+	end
+	
 	function exeCmd(cmd, args)
 		local cmd2 = cmdHandler[cmd]
 		if (cmd2) then cmd2[3](args)updatesave()return end
@@ -1853,6 +1868,12 @@ do
 					[1] = "Trying to boost fps",
 					[2] = {},
 					[3] = cmds.fpsboost,
+				},
+				removesoundstool = {
+					[4] = 'removesoundstool',
+					[1] = "Remove sounds from Tools in game",
+					[2] = {'rst'},
+					[3] = cmds.removesoundstool,
 				}
 			}
 			funcs.createnotif('Welcome to SPX Admin, '..lplr.Name..'!','warn',5,true);
