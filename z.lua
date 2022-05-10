@@ -14,13 +14,11 @@
 ╹
 ╻
 | Credits to:
-|  • WhiteFo0x [aka Byte]
+|  • WhiteFo0x [aka Byte] [aka Unix]
 |
 |
 | Warns:
 |  • Some code stealed from =>  Infinity Yield   ^^   CMD-X
-|  • MINE MINE MINE MINE MINE MINE
-|  • S-sorry.. I added to this dex.. but you can choose versions.. :)  (UwU)
 |  • To open cmdbar use button: \
 |  • To use chat commands use prefix: c.
 ╹
@@ -30,7 +28,7 @@
 |
 |
 | Current static:
-|  • Version: v1.1.5b [BETA]
+|  • Version: v1.1.2a
 |  • Lines: dunno
 |  • Commands: dunno
 |  • Functioncs: dunno
@@ -1383,7 +1381,10 @@ do
 				Enabled = true,
 				ResetOnSpawn = false
 			})
-			local Dex = game:GetObjects("rbxassetid://3567096419")[1]
+			local Dex = game:GetObjects("rbxassetid://9593748029")[1]
+			if syn and syn.secure_gui then
+				syn.secure_gui(Dex)
+			end
 			Dex.Parent = newPAR
 
 			local function Load(Obj, Url)
